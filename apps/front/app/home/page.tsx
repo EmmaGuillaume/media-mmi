@@ -8,7 +8,7 @@ export default function HomeConnected() {
   return (
     <main className="flex flex-col justify-center bg-slate-200">
       <div className="text-purple bg-blue-light1 font-raleway">
-        Connected, welcome{" "}
+        Connected, welcome{" "} !
       </div>
       <div className="snap-y ">
         {/* <video
