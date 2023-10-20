@@ -31,14 +31,14 @@ const config: Config = {
       'purple':{ 
         'light1' : "#E8DDF9", 
         'light2' : "#BB98EC", 
-        DEFAULT : "#6925C7", 
-        'dark1' : "#48198A", 
+        DEFAULT : "#A359FF", 
+        'dark1' : "#6A31B6", 
         'dark2' : "#361367", 
       },
       'red':{ 
         'light1' : "#FDD8DA", 
         'light2' : "#F88B8F", 
-        DEFAULT : "#F3373C", 
+        DEFAULT : "#F94848", 
         'dark1' : "#D40C13", 
         'dark2' : "#AE0A10", 
       },
@@ -52,10 +52,12 @@ const config: Config = {
       'green':{ 
         'light1' : "#DAFBDF", 
         'light2' : "#7FE290", 
-        DEFAULT : "#11AC2A", 
+        DEFAULT : "#23C43D", 
         'dark1' : "#OB6F1C", 
         'dark2' : "#074A12", 
       },
+      'white': "FAF2FF",
+      'black': "202020",
     }
     
       
