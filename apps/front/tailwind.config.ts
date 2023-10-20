@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 const config: Config = {
   content: [
@@ -7,13 +8,57 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    
     extend: {
+      fontFamily: {
+        'raleway': ['Raleway'],
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      
     },
+    colors: {
+      'yellow':{ 
+        'light1' : "#FFF4D6", 
+        'light2' : "#FFDE85", 
+        DEFAULT : "#FFCA3A", 
+        'dark1' : "#F5B400", 
+        'dark2' : "#CC9600", 
+      },
+      'purple':{ 
+        'light1' : "#E8DDF9", 
+        'light2' : "#BB98EC", 
+        DEFAULT : "#6925C7", 
+        'dark1' : "#48198A", 
+        'dark2' : "#361367", 
+      },
+      'red':{ 
+        'light1' : "#FDD8DA", 
+        'light2' : "#F88B8F", 
+        DEFAULT : "#F3373C", 
+        'dark1' : "#D40C13", 
+        'dark2' : "#AE0A10", 
+      },
+      'blue':{ 
+        'light1' : "#DDF4F9", 
+        'light2' : "#98DDEC", 
+        DEFAULT : "#27B3D2", 
+        'dark1' : "#1C849B", 
+        'dark2' : "#166779", 
+      },
+      'green':{ 
+        'light1' : "#DAFBDF", 
+        'light2' : "#7FE290", 
+        DEFAULT : "#11AC2A", 
+        'dark1' : "#OB6F1C", 
+        'dark2' : "#074A12", 
+      },
+    }
+    
+      
   },
   plugins: [],
 }
