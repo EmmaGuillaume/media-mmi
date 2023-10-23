@@ -1,7 +1,6 @@
 "use client";
 import { useRef } from "react";
 import Image from "next/image";
-import Nav from "@/components/Nav";
 
 export default function HomeConnected() {
   const videoRef = useRef<any>(null);
@@ -11,7 +10,6 @@ export default function HomeConnected() {
       <div className="text-purple bg-blue-light1 font-raleway">
         Connected, welcome
       </div>
-      <Nav />
       <div className="snap-y ">
         {/* <video
           className="snap-center w-full h-[850px]"
