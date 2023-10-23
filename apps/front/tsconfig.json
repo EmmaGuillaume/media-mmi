@@ -1,5 +1,6 @@
 {
-  "compilerOptions": {
+  "extends": "../../tsconfig.json",
+    "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,7 +20,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./apps/front/*"],
+      "@back/*": ["./apps/back/src/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "additional-env.d.ts"],
