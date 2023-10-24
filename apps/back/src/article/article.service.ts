@@ -1,30 +1,26 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCrudArticleDto } from './dto/create-article.dto';
-import { UpdateCrudArticleDto } from './dto/update-article.dto';
+import { Injectable, Inject } from '@nestjs/common';
+// import { CreateCrudArticleDto } from './dto/create-article.dto';
+// import { UpdateCrudArticleDto } from './dto/update-article.dto';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class CrudArticleService {
-  create(createCrudArticleDto: CreateCrudArticleDto) {
-    console.log(createCrudArticleDto);
-    return 'This action adds a new Article';
-  }
+  constructor(
+    @Inject('SUPABASE_CLIENT')
+    private supabase: SupabaseClient,
+  ) {}
 
-  getName() {
-    const a = 5;
-    return `This action returns all Article #${a}`;
-  }
-
-  findOne(id: number) {
-    const a = 5;
-    return `This action returns a #${a} Article ${id}`;
-  }
-
-  update(id: number, updateCrudArticleDto: UpdateCrudArticleDto) {
-    console.log(updateCrudArticleDto);
-    return `This action updates a #${id} Article`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} Article`;
+  async getName() {
+    try {
+      const { data, error } = await this.supabase.from('emotions').select();
+      console.log(data);
+      console.log(error);
+      return data;
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      return 'ERror';
+    }
   }
 }
