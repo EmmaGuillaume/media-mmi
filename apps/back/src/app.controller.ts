@@ -1,7 +1,16 @@
-import { Controller, Get, Req, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Logger,
+  Post,
+  Req,
+  Get,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { AppService } from './app.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { SupabaseAuthGuard } from './auth/guard/supabase.guard';
 
 @Controller()
 @UseInterceptors(AuthInterceptor)
@@ -22,18 +31,13 @@ export class AppController {
   //   return this.appService.getLastArticle();
   // }
 
-  @Get()
-  createArticle() {
-    return this.appService.createArticle(
-      8,
-      'EEEEEE',
-      'content',
-      'introduction',
-      'https://img.lemde.fr/2019/05/17/0/0/3553/2542/800/0/75/0/74a2a9f_91ae3c37d18b44d4ae49147a7b9a2126-91ae3c37d18b44d4ae49147a7b9a2126-0.jpg',
-      'https://youtube.com/shorts/Im3jww3Dr24?si=jUIR5OS0HvxnYmR0',
-      'https://www.youtube.com/watch?v=jwxYoxRL8hQ',
-    );
+  @Post('/hey')
+  @UseGuards(SupabaseAuthGuard)
+  createArticle(@Req() request: Request) {
+    Logger.log(request.body);
+    return null;
   }
+
   @Get()
   getExampleData(@Req() request: Request) {
     // The 'Authorization' header can be accessed here

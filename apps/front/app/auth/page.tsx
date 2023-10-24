@@ -39,7 +39,7 @@ export default function Login() {
       router.replace("./home");
       setAccessToken(session.access_token);
       fetch("https://akoro-backend.up.railway.app/", {
-        headers: { Authorization: `${accessToken}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       })
         .then((response) => {
           // handle the response

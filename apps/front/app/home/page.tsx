@@ -2,10 +2,12 @@
 import { useRef } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
-
+import { accessTokenAtom } from "@/store";
 import { useRouter } from "next/navigation";
+import { useAtomValue } from "jotai";
 
 export default function HomeConnected() {
+  const accessToken = useAtomValue(accessTokenAtom);
   const router = useRouter();
   const videoRef = useRef<any>(null);
 
