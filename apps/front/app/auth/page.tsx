@@ -38,7 +38,7 @@ export default function Login() {
     if (!error && session) {
       router.replace("./home");
       setAccessToken(session.access_token);
-      fetch("http://localhost:3001", {
+      fetch("https://akoro-backend.up.railway.app/", {
         headers: { Authorization: `${accessToken}` },
       })
         .then((response) => {
