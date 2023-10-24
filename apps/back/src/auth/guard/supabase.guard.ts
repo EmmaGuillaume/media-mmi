@@ -4,8 +4,8 @@ import {
   ExecutionContext,
   UnauthorizedException,
   Inject,
-  HttpException,
-  HttpStatus,
+  // HttpException,
+  // HttpStatus,
 } from '@nestjs/common';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
 
@@ -35,9 +35,9 @@ export class SupabaseAuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
 
-    if (await this.checkIfUserIsDeleted(data.user.id)) {
-      throw new UnauthorizedException();
-    }
+    // if (await this.checkIfUserIsDeleted(data.user.id)) {
+    //   throw new UnauthorizedException();
+    // }
     request.user = data.user;
     request.user.access_token = token;
     console.log('aaaa', request);
@@ -58,18 +58,18 @@ export class SupabaseAuthGuard implements CanActivate {
     return auth.split(' ')[1];
   }
 
-  async checkIfUserIsDeleted(user_id: string): Promise<boolean> {
-    const { data, error } = await this.clientSupabase
-      .from('profiles')
-      .select('*')
-      .eq('user_id', user_id)
-      .select()
-      .single();
+  // async checkIfUserIsDeleted(user_id: string): Promise<boolean> {
+  //   const { data, error } = await this.clientSupabase
+  //     .from('profiles')
+  //     .select('*')
+  //     .eq('id', user_id)
+  //     .select()
+  //     .single();
 
-    if (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  //   if (error) {
+  //     throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+  //   }
 
-    return data.deleted;
-  }
+  //   return data.deleted;
+  // }
 }

@@ -36,6 +36,7 @@ export default function Login() {
     });
 
     if (!error && session) {
+      console.log("🚀 ~ file: page.tsx:39 ~ onSubmit ~ session:", session);
       router.replace("./home");
       setAccessToken(session.access_token);
       fetch("https://akoro-backend.up.railway.app/", {

@@ -8,11 +8,12 @@ import { AuthInterceptor } from './auth.interceptor';
 @Module({
   imports: [PassportModule.register({ defaultStrategy: SUPABASE_AUTH })],
   controllers: [AuthController],
-  providers: [AuthService,
+  providers: [
+    AuthService,
     {
       provide: APP_INTERCEPTOR,
       useClass: AuthInterceptor,
-    }
+    },
   ],
 })
-export class AuthModule { }
+export class AuthModule {}

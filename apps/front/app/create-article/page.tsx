@@ -2,8 +2,18 @@
 import { FormEvent, useRef } from "react";
 import Image from "next/image";
 import axios from "axios";
+import { accessTokenAtom } from "@/store";
+import { useAtomValue } from "jotai";
 
 import { useRouter } from "next/navigation";
+type Article = {
+  title: string;
+  introduction: string;
+  content: string;
+  image: string;
+  short_video: string;
+  long_video: string;
+};
 
 export default function HomeConnected() {
   const router = useRouter();
@@ -14,40 +24,38 @@ export default function HomeConnected() {
   const shortVideoRef = useRef<any>(null);
   const imageRef = useRef<any>(null);
 
-  const createArticle = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/");
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const accessToken = useAtomValue(accessTokenAtom);
+  console.log(
+    "🚀 ~ file: page.tsx:30 ~ HomeConnected ~ accessToken:",
+    accessToken
+  );
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const data = {
+    const data: Article = {
       title: titleRef.current,
       introduction: introductionRef.current,
       content: contentRef.current,
       image: imageRef.current,
-      shortVideo: shortVideoRef.current,
-      longVideo: longVideoRef.current,
+      short_video: shortVideoRef.current,
+      long_video: longVideoRef.current,
     };
 
     try {
-      const response = await fetch("http://localhost:3001/", {
+      const response = await fetch("http://localhost:3001/hey", {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
+      console.log(JSON.stringify(data));
 
       if (response.ok) {
         const responseData = await response.json();
         console.log(responseData);
-        router.push("/success");
       } else {
         console.error(
           "Error submitting form:",
@@ -65,22 +73,23 @@ export default function HomeConnected() {
       <form
         className="flex flex-col w-full gap-2"
         onSubmit={(event) => {
-          createArticle();
+          handleFormSubmit(event);
         }}
       >
         Create an article
         <input
           type="text"
           placeholder="title"
-          className="border-2 rounded-md p-2"
+          className="p-2 border-2 rounded-md"
           onChange={(e) => {
             titleRef.current = e.target.value;
+            console.log(titleRef.current);
           }}
         />
         <input
           type="text"
           placeholder="introduction"
-          className="border-2 rounded-md p-2"
+          className="p-2 border-2 rounded-md"
           onChange={(e) => {
             introductionRef.current = e.target.value;
           }}
@@ -88,7 +97,7 @@ export default function HomeConnected() {
         <input
           type="text"
           placeholder="content"
-          className="border-2 rounded-md p-2"
+          className="p-2 border-2 rounded-md"
           onChange={(e) => {
             contentRef.current = e.target.value;
           }}
@@ -96,7 +105,7 @@ export default function HomeConnected() {
         <input
           type="text"
           placeholder="image"
-          className="border-2 rounded-md p-2"
+          className="p-2 border-2 rounded-md"
           onChange={(e) => {
             imageRef.current = e.target.value;
           }}
@@ -104,7 +113,7 @@ export default function HomeConnected() {
         <input
           type="text"
           placeholder="short"
-          className="border-2 rounded-md p-2"
+          className="p-2 border-2 rounded-md"
           onChange={(e) => {
             shortVideoRef.current = e.target.value;
           }}
@@ -112,7 +121,7 @@ export default function HomeConnected() {
         <input
           type="text"
           placeholder="long"
-          className="border-2 rounded-md p-2"
+          className="p-2 border-2 rounded-md"
           onChange={(e) => {
             longVideoRef.current = e.target.value;
           }}
