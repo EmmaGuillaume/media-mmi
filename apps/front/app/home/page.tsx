@@ -1,15 +1,32 @@
 "use client";
 import { useRef } from "react";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+
+import { useRouter } from "next/navigation";
 
 export default function HomeConnected() {
+  const router = useRouter();
   const videoRef = useRef<any>(null);
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      router.replace("/auth");
+    } catch (error) {
+      console.error("error : ", error);
+    }
+  };
 
   return (
     <main className="flex flex-col justify-center bg-slate-200">
       <div className="text-purple bg-blue-light1 font-raleway">
-        Connected, welcome{" "} !
+        Connected, welcome !
       </div>
+      <button onClick={handleSignOut} className="bg-red">
+        Sign out
+      </button>
+      {/* <div>{greeting}</div> */}
       <div className="snap-y ">
         {/* <video
           className="snap-center w-full h-[850px]"

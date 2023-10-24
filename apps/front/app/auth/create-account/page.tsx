@@ -37,8 +37,6 @@ export default function CreateAccount() {
       return;
     }
 
-    console.log("Check your email for the confirmation link.");
-
     const { error: authTokenCodeVerifierError } = await supabase
       .from("user_auth_token_code_verifier")
       .insert({

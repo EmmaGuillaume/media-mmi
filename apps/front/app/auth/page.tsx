@@ -5,6 +5,10 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { accessTokenAtom } from "@/store";
+import { useAtom, useAtomValue } from "jotai";
+import { GetServerSideProps } from "next";
+import axios from "axios";
 
 interface IFormInput {
   email: string;
@@ -13,6 +17,7 @@ interface IFormInput {
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
   const router = useRouter();
   const {
     register,
@@ -22,13 +27,32 @@ export default function Login() {
   } = useForm<IFormInput>();
 
   const onSubmit = async (data: IFormInput) => {
-    const { data: IFormInput, error } = await supabase.auth.signInWithPassword({
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password,
     });
 
-    if (!error) {
+    if (!error && session) {
       router.replace("./home");
+      setAccessToken(session.access_token);
+      fetch("http://localhost:3001", {
+        headers: { Authorization: `${accessToken}` },
+      })
+        .then((response) => {
+          // handle the response
+          if (response.ok) {
+            console.log("response ok");
+          } else {
+            console.log("response NOT ok");
+          }
+        })
+        .catch((error) => {
+          // handle the error
+          console.error(error);
+        });
     }
 
     if (error) {

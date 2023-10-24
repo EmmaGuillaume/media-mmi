@@ -29,5 +29,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@nestjs/jwt": "^10.1.1"
+  }
 }
