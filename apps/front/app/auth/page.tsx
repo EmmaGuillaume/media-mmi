@@ -39,7 +39,7 @@ export default function Login() {
       router.replace("./home");
       setAccessToken(session.access_token);
       fetch("http://localhost:3001", {
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { Authorization: `${accessToken}` },
       })
         .then((response) => {
           // handle the response

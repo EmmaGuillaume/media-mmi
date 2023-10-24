@@ -1,21 +1,25 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Req, UseInterceptors } from '@nestjs/common';
 import { AppService } from './app.service';
+import { AuthInterceptor } from './auth/auth.interceptor';
 import { Request } from 'express';
 
 @Controller()
+@UseInterceptors(AuthInterceptor)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getName() {
-    return this.appService.getName();
-  }
+  // @Get()
+  // getName() {
+  //   return this.appService.getName();
+  // }
 
   @Get()
-  getHeaders(@Req() req: Request) {
-    console.log(req.headers.authorization);
+  getExampleData(@Req() request: Request) {
+    // The 'Authorization' header can be accessed here
+    const authorizationHeader = request.headers.authorization;
+    // const authorizationHeader = request.headers;
 
-    const userAgent = req.get('Authorization');
-    console.log(userAgent);
+    console.log('auth Header : ', authorizationHeader);
+    return 'Example Data';
   }
 }
