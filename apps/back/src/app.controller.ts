@@ -20,6 +20,6 @@ export class AppController {
     // const authorizationHeader = request.headers;
 
     console.log('auth Header : ', authorizationHeader);
-    return 'Example Data';
+    return 'App Controller';
   }
 }
