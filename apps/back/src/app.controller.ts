@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Post, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Req, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { AppService } from './app.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -22,11 +22,11 @@ export class AppController {
   //   return this.appService.getLastArticle();
   // }
 
-  @Post()
+  @Get()
   createArticle() {
     return this.appService.createArticle(
-      5,
-      'titleee',
+      8,
+      'EEEEEE',
       'content',
       'introduction',
       'https://img.lemde.fr/2019/05/17/0/0/3553/2542/800/0/75/0/74a2a9f_91ae3c37d18b44d4ae49147a7b9a2126-91ae3c37d18b44d4ae49147a7b9a2126-0.jpg',

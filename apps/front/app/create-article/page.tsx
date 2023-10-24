@@ -1,6 +1,7 @@
 "use client";
 import { FormEvent, useRef } from "react";
 import Image from "next/image";
+import axios from "axios";
 
 import { useRouter } from "next/navigation";
 
@@ -12,6 +13,15 @@ export default function HomeConnected() {
   const contentRef = useRef<any>(null);
   const shortVideoRef = useRef<any>(null);
   const imageRef = useRef<any>(null);
+
+  const createArticle = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/");
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -55,7 +65,7 @@ export default function HomeConnected() {
       <form
         className="flex flex-col w-full gap-2"
         onSubmit={(event) => {
-          handleFormSubmit(event);
+          createArticle();
         }}
       >
         Create an article
