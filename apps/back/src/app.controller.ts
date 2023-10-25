@@ -71,6 +71,7 @@ export class AppController {
         .select('*');
       Logger.log({ articles });
       Logger.log({ error });
+      return articles;
     } catch (error) {
       Logger.log(error);
       throw new HttpException('Error', 500);
@@ -87,6 +88,7 @@ export class AppController {
         .is('visibility', true);
       Logger.log({ articles });
       Logger.log({ error });
+      return articles;
     } catch (error) {
       Logger.log(error);
       throw new HttpException('Error', 500);
@@ -103,6 +105,7 @@ export class AppController {
         .eq('id', id);
       Logger.log({ articles });
       Logger.log({ error });
+      return articles;
     } catch (error) {
       Logger.log(error);
       throw new HttpException('Error', 500);
@@ -187,6 +190,7 @@ export class AppController {
         .select('*');
       Logger.log({ categories });
       Logger.log({ error });
+      return categories;
     } catch (error) {
       Logger.log(error);
       console.log(error);
@@ -228,6 +232,7 @@ export class AppController {
         .select('*');
       Logger.log({ emotions });
       Logger.log({ error });
+      return emotions;
     } catch (error) {
       Logger.log(error);
       console.log(error);
