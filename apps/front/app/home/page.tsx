@@ -25,9 +25,12 @@ export default function HomeConnected() {
 
   const getVisibleArticle = async () => {
     try {
-      const response = await fetch("http://localhost:3001/articles/visible", {
-        method: "GET",
-      });
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/articles/visible",
+        {
+          method: "GET",
+        }
+      );
 
       setArticleList(await response.json());
     } catch (error) {

@@ -81,9 +81,12 @@ export default function HomeConnected() {
 
   const getCategories = async () => {
     try {
-      const response = await fetch("http://localhost:3001/categories/all", {
-        method: "GET",
-      });
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/categories/all",
+        {
+          method: "GET",
+        }
+      );
 
       setCategoryList(await response.json());
     } catch (error) {
