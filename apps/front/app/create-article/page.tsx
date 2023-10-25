@@ -14,22 +14,18 @@ type Article = {
   short_video: string;
   long_video: string;
   is_visible: boolean;
-  voted_emotion: VotedEmotion[];
+  default_emotion: number,
 };
-type Category = {
-  id: number;
-  name: string;
-};
+// type Category = {
+//   id: number;
+//   name: string;
+// };
 type Emotion = {
   id: number;
   name: string;
 };
 
-type VotedEmotion = {
-  name: string;
-  is_voted: boolean;
-};
-type EmotionSelection = { [key: string]: boolean };
+// type EmotionSelection = { [key: string]: boolean };
 
 export default function HomeConnected() {
   const router = useRouter();
@@ -39,23 +35,24 @@ export default function HomeConnected() {
   const contentRef = useRef<any>(null);
   const shortVideoRef = useRef<any>(null);
   const imageRef = useRef<any>(null);
+  const emotionRef = useRef<any>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [categoryList, setCategoryList] = useState<Category[]>([]);
+  // const [categoryList, setCategoryList] = useState<Category[]>([]);
   const [emotionsList, setEmotionsList] = useState<Emotion[]>([]);
-  const [selectedEmotions, setSelectedEmotions] = useState<VotedEmotion[]>([]);
+  // const [selectedEmotions, setSelectedEmotions] = useState<VotedEmotion[]>([]);
 
   const accessToken = useAtomValue(accessTokenAtom);
   console.log(
     "🚀 ~ file: page.tsx:30 ~ HomeConnected ~ accessToken:",
     accessToken
   );
-  const updateEmotionSelection = (emotion: string) => {
-    const updatedEmotions: VotedEmotion[] = emotionsList.map((e) => ({
-      name: e.name,
-      is_voted: e.name === emotion,
-    }));
-    setSelectedEmotions(updatedEmotions);
-  };
+  // const updateEmotionSelection = (emotion: string) => {
+  //   const updatedEmotions: VotedEmotion[] = emotionsList.map((e) => ({
+  //     name: e.name,
+  //     is_voted: e.name === emotion,
+  //   }));
+  //   setSelectedEmotions(updatedEmotions);
+  // };
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -68,12 +65,12 @@ export default function HomeConnected() {
       short_video: shortVideoRef.current,
       long_video: longVideoRef.current,
       is_visible: isVisible,
-      voted_emotion: selectedEmotions,
+      default_emotion: emotionRef.current,
     };
-
+    
     try {
       const response = await fetch(
-        "https://akoro-backend.up.railway.app/articles/create",
+        "http://localhost:3001/articles/create",
         {
           method: "POST",
           headers: {
@@ -98,27 +95,28 @@ export default function HomeConnected() {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
+    
   };
 
-  const getCategories = async () => {
-    try {
-      const response = await fetch(
-        "https://akoro-backend.up.railway.app/categories/all",
-        {
-          method: "GET",
-        }
-      );
+  // const getCategories = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "http://localhost:3001/categories/all",
+  //       {
+  //         method: "GET",
+  //       }
+  //     );
 
-      setCategoryList(await response.json());
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
+  //     setCategoryList(await response.json());
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //   }
+  // };
 
   const getEmotion = async () => {
     try {
       const response = await fetch(
-        "https://akoro-backend.up.railway.app/emotions/all",
+        "http://localhost:3001/emotions/all",
         {
           method: "GET",
         }
@@ -130,9 +128,8 @@ export default function HomeConnected() {
     }
   };
 
-  console.log({ selectedEmotions });
   useEffect(() => {
-    getCategories();
+    // getCategories();
     getEmotion();
   }, []);
   return (
@@ -205,17 +202,19 @@ export default function HomeConnected() {
           <p>À quelle émotion correspond cet article ?</p>
           <select
             className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
-            onChange={(e) => updateEmotionSelection(e.target.value)}
-          >
+            onChange={(e) => {
+              emotionRef.current = e.target.value;
+              console.log("emotionRef : ",emotionRef.current);
+            }}>
             {emotionsList.map((emotion) => (
-              <option key={emotion.id} value={emotion.name}>
+              <option key={emotion.id} value={emotion.id}>
                 {emotion.name}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <p>À quel thème correspond cet article ?</p>
           <div>
             {categoryList.map((categoryList) => (
@@ -225,7 +224,7 @@ export default function HomeConnected() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         <button
           className="w-full h-12 mt-6 rounded-full bg-purple-dark1"

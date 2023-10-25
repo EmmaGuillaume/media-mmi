@@ -30,9 +30,10 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return 'eus';
+    return 'Hello there!';
   }
 
+  // Create one article
   @Post('/articles/create')
   @UseGuards(SupabaseAuthGuard)
   async createArticle(@Req() req: Request) {
@@ -48,11 +49,7 @@ export class AppController {
           short_video: body.short_video,
           long_video: body.long_video,
           visibility: body.is_visible,
-          nb_positif: body.nb_positif,
-          nb_etonnant: body.nb_etonnant,
-          nb_angoissant: body.nb_angoissant,
-          nb_enervant: body.nb_enervant,
-          nb_triste: body.nb_triste,
+          default_emotion: body.default_emotion,
         })
         .select();
       Logger.log({ data });
@@ -67,6 +64,7 @@ export class AppController {
     }
   }
 
+  // Read all articles
   @Get('/articles/all')
   // @UseGuards(SupabaseAuthGuard)
   @HttpCode(200)
@@ -84,6 +82,7 @@ export class AppController {
     }
   }
 
+  // Read all visible articles
   @Get('/articles/visible')
   @HttpCode(200)
   async seeVisibleArticles() {
@@ -101,6 +100,7 @@ export class AppController {
     }
   }
 
+  // Read one article
   @Get('/articles/:id')
   @HttpCode(200)
   async seeOneArticle(@Param('id') id: string) {
@@ -118,6 +118,7 @@ export class AppController {
     }
   }
 
+  // Update one article
   @Put('/articles/update/:id')
   @UseGuards(SupabaseAuthGuard)
   async updateArticle(@Param('id') id: string, @Req() req: Request) {
@@ -133,11 +134,7 @@ export class AppController {
           short_video: body.short_video,
           long_video: body.long_video,
           visibility: body.is_visible,
-          nb_positif: body.nb_positif,
-          nb_etonnant: body.nb_etonnant,
-          nb_angoissant: body.nb_angoissant,
-          nb_enervant: body.nb_enervant,
-          nb_triste: body.nb_triste,
+          default_emotion: body.default_emotion,
         }) 
         .eq('id', id)
         .select();
@@ -152,6 +149,7 @@ export class AppController {
     }
   }
 
+  // Delete one article
   @Delete('/articles/delete/:id')
   @UseGuards(SupabaseAuthGuard)
   async deleteArticle(@Param('id') id: string) {
@@ -171,250 +169,8 @@ export class AppController {
     }
   }
 
-  @Post('/vote/create')
-  @UseGuards(SupabaseAuthGuard)
-  async createVote(@Req() req: Request) {
-    const body = req.body;
-    try {
-      const { data, error } = await this.supabase
-        .from('profile_vote_article')
-        .insert({
-          profile_id: body.profile_id,
-          article_id: body.article_id,
-          is_positif: body.is_positif,
-          is_etonnant: body.is_etonnant,
-          is_angoissant: body.is_angoissant,
-          is_enervant: body.is_enervant,
-          is_triste: body.is_triste,
-        })
-        .select();
-      Logger.log({ data });
-      Logger.log({ error });
-      return {
-        ok: true,
-      };
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Get('/vote/one-article')
-  @HttpCode(200)
-  async seeOneVote(@Req() req: Request) {
-    const body = req.body;
-    const profile_id = body.profile_id;
-    const article_id = body.article_id;
-    try {
-      const { data: votes, error } = await this.supabase
-        .from('profile_vote_article')
-        .select('*')
-        .eq('profile_id', profile_id)
-        .eq('article_id', article_id);
-      Logger.log({ votes });
-      Logger.log({ error });
-      return votes;
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Get('/vote/all-articles')
-  @HttpCode(200)
-  async seeAllVotes(@Req() req: Request) {
-    const body = req.body;
-    const profile_id = body.profile_id;
-    try {
-      const { data: votes, error } = await this.supabase
-        .from('profile_vote_article')
-        .select('*')
-        .eq('profile_id', profile_id);
-      Logger.log({ votes });
-      Logger.log({ error });
-      return votes;
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Put('/vote/update')
-  @UseGuards(SupabaseAuthGuard)
-  async updateVote(@Req() req: Request) {
-    const body = req.body;
-    const profile_id = body.profile_id;
-    const article_id = body.article_id;
-    try {
-      const { data, error } = await this.supabase
-        .from('profile_vote_article')
-        .update({
-          is_positif: body.is_positif,
-          is_etonnant: body.is_etonnant,
-          is_angoissant: body.is_angoissant,
-          is_enervant: body.is_enervant,
-          is_triste: body.is_triste,
-        }) 
-        .eq('profile_id', profile_id)
-        .eq('article_id', article_id)
-        .select();
-      Logger.log({ data });
-      Logger.log({ error });
-      return {
-        ok: true,
-      };
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Delete('/vote/delete')
-  @UseGuards(SupabaseAuthGuard)
-  async deleteVote(@Req() req: Request) {
-    const body = req.body;
-    const profile_id = body.profile_id;
-    const article_id = body.article_id;
-    try {
-      const { data, error } = await this.supabase
-        .from('profile_vote_article')
-        .delete() 
-        .eq('profile_id', profile_id)
-        .eq('article_id', article_id);
-      Logger.log({ data });
-      Logger.log({ error });
-      return {
-        ok: true,
-      };
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Post('/categories/create')
-  @UseGuards(SupabaseAuthGuard)
-  async createCategory(@Req() req: Request) {
-    const body = req.body;
-    try {
-      const { data, error } = await this.supabase
-        .from('categories')
-        .insert({
-          name: body.name,
-        })
-        .select();
-      Logger.log({ data });
-      Logger.log({ error });
-      return {
-        ok: true,
-      };
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Get('/categories/all')
-  @HttpCode(200)
-  async seeAllCategories() {
-    try {
-      const { data: categories, error } = await this.supabase
-        .from('categories')
-        .select('*');
-      Logger.log({ categories });
-      Logger.log({ error });
-      return categories;
-    } catch (error) {
-      Logger.log(error);
-      console.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Get('/categories/:id')
-  @HttpCode(200)
-  async seeOneCategory(@Param('id') id: string) {
-    try {
-      const { data: categories, error } = await this.supabase
-        .from('categories')
-        .select('*')
-        .eq('id', id);
-      Logger.log({ categories });
-      Logger.log({ error });
-      return categories;
-    } catch (error) {
-      Logger.log(error);
-      console.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Put('/categories/update/:id')
-  @UseGuards(SupabaseAuthGuard)
-  async updateCategory(@Param('id') id: string, @Req() req: Request) {
-    const body = req.body;
-    try {
-      const { data, error } = await this.supabase
-        .from('categories')
-        .update({
-          name: body.name,
-        }) 
-        .eq('id', id)
-        .select();
-      Logger.log({ data });
-      Logger.log({ error });
-      return {
-        ok: true,
-      };
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  @Delete('/categories/delete/:id')
-  @UseGuards(SupabaseAuthGuard)
-  async deleteCategory(@Param('id') id: string) {
-    try {
-      const { data, error } = await this.supabase
-        .from('categories')
-        .delete() 
-        .eq('id', id);
-      Logger.log({ data });
-      Logger.log({ error });
-      return {
-        ok: true,
-      };
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
-  // @Post('/article-categories/create')
-  // @UseGuards(SupabaseAuthGuard)
-  // async createArticleCategoryJoint(@Req() req: Request) {
-  //   const body = req.body;
-  //   try {
-  //     const { data, error } = await this.supabase
-  //       .from('categories')
-  //       .insert({
-  //         category_id: body.category_id,
-  //         article_id: body.article_id,
-  //       })
-  //       .select();
-  //     Logger.log({ data });
-  //     Logger.log({ error });
-  //     return {
-  //       ok: true,
-  //     };
-  //   } catch (error) {
-  //     Logger.log(error);
-  //     throw new HttpException('Error', 500);
-  //   }
-  // }
-
-  //MVP 3
+  
+  // Create one emotion
   @Post('/emotions/create')
   @UseGuards(SupabaseAuthGuard)
   @HttpCode(200)
@@ -439,10 +195,10 @@ export class AppController {
     }
   }
 
+  // Read all emotions
   @Get('/emotions/all')
   @HttpCode(200)
   async seeAllEmotions() {
-    // const body = req.body;
     try {
       const { data: emotions, error } = await this.supabase
         .from('emotions')
@@ -457,6 +213,7 @@ export class AppController {
     }
   }
 
+  // Read one emotion
   @Get('/emotions/:id')
   @HttpCode(200)
   async seeOneEmotion(@Param('id') id: string) {
@@ -475,6 +232,7 @@ export class AppController {
     }
   }
 
+  // Update one emotion
   @Put('/emotions/update/:id')
   @UseGuards(SupabaseAuthGuard)
   async updateEmotion(@Param('id') id: string, @Req() req: Request) {
@@ -498,6 +256,7 @@ export class AppController {
     }
   }
 
+  // Delete one emotion
   @Delete('/emotions/delete/:id')
   @UseGuards(SupabaseAuthGuard)
   async deleteEmotion(@Param('id') id: string) {
@@ -516,6 +275,244 @@ export class AppController {
       throw new HttpException('Error', 500);
     }
   }
+
+  // Create a profile vote on one article
+  @Post('/profile/vote/create')
+  @UseGuards(SupabaseAuthGuard)
+  async createVote(@Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('profile_vote_article')
+        .insert({
+          profile_id: body.profile_id,
+          article_id: body.article_id,
+          emotion_id: body.emotion_id,
+        })
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // Read votes on one article
+  @Get('/articles/vote/:article_id')
+  @HttpCode(200)
+  async seeAllVotesOnArticle(@Param('article_id') article_id: string, @Req() req: Request) {
+    try {
+      const { data: votes, error } = await this.supabase
+        .from('profile_vote_article')
+        .select('*')
+        .eq('article_id', article_id);
+      Logger.log({ votes });
+      Logger.log({ error });
+      return votes;
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // Read all profile votes
+  @Get('/profile/vote')
+  @HttpCode(200)
+  async seeProfileVotes(@Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    try {
+      const { data: votes, error } = await this.supabase
+        .from('profile_vote_article')
+        .select('*')
+        .eq('profile_id', profile_id);
+      Logger.log({ votes });
+      Logger.log({ error });
+      return votes;
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // Read profile vote on one article
+  @Get('/profile/vote/:article_id')
+  @HttpCode(200)
+  async seeProfileVoteOnArticle(@Param('article_id') article_id: string, @Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    try {
+      const { data: votes, error } = await this.supabase
+        .from('profile_vote_article')
+        .select('*')
+        .eq('profile_id', profile_id)
+        .eq('article_id', article_id);
+      Logger.log({ votes });
+      Logger.log({ error });
+      return votes;
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // Update profile vote on one article
+  @Put('/profile/vote/update/:article_id')
+  @UseGuards(SupabaseAuthGuard)
+  async updateVote(@Param('article_id') article_id: string, @Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    try {
+      const { data, error } = await this.supabase
+        .from('profile_vote_article')
+        .update({
+          emotion_id: body.emotion_id,
+        }) 
+        .eq('profile_id', profile_id)
+        .eq('article_id', article_id)
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // Delete profile vote on one article
+  @Delete('/profile/vote/delete/:article_id')
+  @UseGuards(SupabaseAuthGuard)
+  async deleteVote(@Param('article_id') article_id: string, @Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    try {
+      const { data, error } = await this.supabase
+        .from('profile_vote_article')
+        .delete() 
+        .eq('profile_id', profile_id)
+        .eq('article_id', article_id);
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // MVP 3 : DO NOT USE
+  // // Create one category
+  // @Post('/categories/create')
+  // @UseGuards(SupabaseAuthGuard)
+  // async createCategory(@Req() req: Request) {
+  //   const body = req.body;
+  //   try {
+  //     const { data, error } = await this.supabase
+  //       .from('categories')
+  //       .insert({
+  //         name: body.name,
+  //       })
+  //       .select();
+  //     Logger.log({ data });
+  //     Logger.log({ error });
+  //     return {
+  //       ok: true,
+  //     };
+  //   } catch (error) {
+  //     Logger.log(error);
+  //     throw new HttpException('Error', 500);
+  //   }
+  // }
+
+  // // Read all categories
+  // @Get('/categories/all')
+  // @HttpCode(200)
+  // async seeAllCategories() {
+  //   try {
+  //     const { data: categories, error } = await this.supabase
+  //       .from('categories')
+  //       .select('*');
+  //     Logger.log({ categories });
+  //     Logger.log({ error });
+  //     return categories;
+  //   } catch (error) {
+  //     Logger.log(error);
+  //     console.log(error);
+  //     throw new HttpException('Error', 500);
+  //   }
+  // }
+
+  // // Read one category
+  // @Get('/categories/:id')
+  // @HttpCode(200)
+  // async seeOneCategory(@Param('id') id: string) {
+  //   try {
+  //     const { data: categories, error } = await this.supabase
+  //       .from('categories')
+  //       .select('*')
+  //       .eq('id', id);
+  //     Logger.log({ categories });
+  //     Logger.log({ error });
+  //     return categories;
+  //   } catch (error) {
+  //     Logger.log(error);
+  //     console.log(error);
+  //     throw new HttpException('Error', 500);
+  //   }
+  // }
+
+  // // Update one category
+  // @Put('/categories/update/:id')
+  // @UseGuards(SupabaseAuthGuard)
+  // async updateCategory(@Param('id') id: string, @Req() req: Request) {
+  //   const body = req.body;
+  //   try {
+  //     const { data, error } = await this.supabase
+  //       .from('categories')
+  //       .update({
+  //         name: body.name,
+  //       }) 
+  //       .eq('id', id)
+  //       .select();
+  //     Logger.log({ data });
+  //     Logger.log({ error });
+  //     return {
+  //       ok: true,
+  //     };
+  //   } catch (error) {
+  //     Logger.log(error);
+  //     throw new HttpException('Error', 500);
+  //   }
+  // }
+
+  // // Delete one category
+  // @Delete('/categories/delete/:id')
+  // @UseGuards(SupabaseAuthGuard)
+  // async deleteCategory(@Param('id') id: string) {
+  //   try {
+  //     const { data, error } = await this.supabase
+  //       .from('categories')
+  //       .delete() 
+  //       .eq('id', id);
+  //     Logger.log({ data });
+  //     Logger.log({ error });
+  //     return {
+  //       ok: true,
+  //     };
+  //   } catch (error) {
+  //     Logger.log(error);
+  //     throw new HttpException('Error', 500);
+  //   }
+  // }
 
   @Get('/user')
   @HttpCode(200)
