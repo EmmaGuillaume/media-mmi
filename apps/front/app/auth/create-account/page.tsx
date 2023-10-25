@@ -106,7 +106,7 @@ export default function CreateAccount() {
               </label>
               <button
                 type="submit"
-                className="flex items-center justify-center gap-5 px-12 py-3 mt-2 text-white align-middle rounded-md w-fit bg-orange hover:bg-orange-hover"
+                className="flex items-center justify-center gap-5 px-12 py-3 mt-2 text-white align-middle rounded-md w-fit bg-blue-dark1 hover:bg-orange-hover"
               >
                 Register
               </button>

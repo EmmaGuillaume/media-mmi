@@ -197,6 +197,66 @@ export class AppController {
       throw new HttpException('Error', 500);
     }
   }
+
+  @Get('/categories/:id')
+  @HttpCode(200)
+  async seeOneCategory(@Param('id') id: string) {
+    try {
+      const { data: categories, error } = await this.supabase
+        .from('categories')
+        .select('*')
+        .eq('id', id);
+      Logger.log({ categories });
+      Logger.log({ error });
+      return categories;
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Put('/categories/update/:id')
+  @UseGuards(SupabaseAuthGuard)
+  async updateCategory(@Param('id') id: string, @Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('categories')
+        .update({
+          name: body.name,
+        }) 
+        .eq('id', id)
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Delete('/categories/delete/:id')
+  @UseGuards(SupabaseAuthGuard)
+  async deleteCategory(@Param('id') id: string) {
+    try {
+      const { data, error } = await this.supabase
+        .from('categories')
+        .delete() 
+        .eq('id', id);
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
   //MVP 3
   @Post('/emotions/create')
   @UseGuards(SupabaseAuthGuard)
