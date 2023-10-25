@@ -1,6 +1,8 @@
 import {
   Controller,
   Get,
+  Put,
+  Delete,
   HttpCode,
   HttpException,
   Inject,
@@ -9,6 +11,7 @@ import {
   Req,
   UseGuards,
   UseInterceptors,
+  Param,
 } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Request } from 'express';
@@ -30,7 +33,7 @@ export class AppController {
     return 'eus';
   }
 
-  @Post('/create-article')
+  @Post('/articles/create')
   @UseGuards(SupabaseAuthGuard)
   async createArticle(@Req() req: Request) {
     const body = req.body;
@@ -58,11 +61,10 @@ export class AppController {
     }
   }
 
-  @Get('/all-articles')
+  @Get('/articles/all')
   // @UseGuards(SupabaseAuthGuard)
   @HttpCode(200)
   async seeAllArticles() {
-    // const body = req.body;
     try {
       const { data: articles, error } = await this.supabase
         .from('articles')
@@ -71,15 +73,13 @@ export class AppController {
       Logger.log({ error });
     } catch (error) {
       Logger.log(error);
-      console.log(error);
       throw new HttpException('Error', 500);
     }
   }
 
-  @Get('/visible-articles')
+  @Get('/articles/visible')
   @HttpCode(200)
   async seeVisibleArticles() {
-    // const body = req.body;
     try {
       const { data: articles, error } = await this.supabase
         .from('articles')
@@ -89,13 +89,74 @@ export class AppController {
       Logger.log({ error });
     } catch (error) {
       Logger.log(error);
-      console.log(error);
-
       throw new HttpException('Error', 500);
     }
   }
-  //MVP 3
-  @Post('/create-category')
+
+  @Get('/articles/:id')
+  @HttpCode(200)
+  async seeOneArticle(@Param('id') id: string) {
+    try {
+      const { data: articles, error } = await this.supabase
+        .from('articles')
+        .select('*')
+        .eq('id', id);
+      Logger.log({ articles });
+      Logger.log({ error });
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Put('/articles/update/:id')
+  @UseGuards(SupabaseAuthGuard)
+  async updateArticle(@Param('id') id: string, @Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('articles')
+        .update({
+          title: body.title,
+          content: body.content,
+          introduction: body.introduction,
+          image: body.image,
+          short_video: body.short_video,
+          long_video: body.long_video,
+        }) 
+        .eq('id', id)
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Delete('/articles/delete/:id')
+  @UseGuards(SupabaseAuthGuard)
+  async deleteArticle(@Param('id') id: string) {
+    try {
+      const { data, error } = await this.supabase
+        .from('articles')
+        .delete() 
+        .eq('id', id);
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Post('/categories/create')
   @UseGuards(SupabaseAuthGuard)
   async createCategory(@Req() req: Request) {
     const body = req.body;
@@ -113,12 +174,11 @@ export class AppController {
       };
     } catch (error) {
       Logger.log(error);
-      console.log(error);
-      return error;
+      throw new HttpException('Error', 500);
     }
   }
 
-  @Get('/all-categories')
+  @Get('/categories/all')
   @HttpCode(200)
   async seeAllCategories() {
     try {
@@ -134,7 +194,7 @@ export class AppController {
     }
   }
   //MVP 3
-  @Post('/create-emotion')
+  @Post('/emotions/create')
   @UseGuards(SupabaseAuthGuard)
   @HttpCode(200)
   async createEmotion(@Req() req: Request) {
@@ -158,7 +218,7 @@ export class AppController {
     }
   }
 
-  @Get('/all-emotions')
+  @Get('/emotions/all')
   @HttpCode(200)
   async seeAllEmotions() {
     // const body = req.body;

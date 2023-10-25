@@ -44,7 +44,7 @@ export default function HomeConnected() {
 
     try {
       const response = await fetch(
-        "https://akoro-backend.up.railway.app/create-article",
+        "https://akoro-backend.up.railway.app/articles/create",
         {
           method: "POST",
           headers: {
