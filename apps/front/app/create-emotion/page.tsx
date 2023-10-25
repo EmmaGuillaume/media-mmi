@@ -31,7 +31,7 @@ export default function HomeConnected() {
     
     try {
       const response = await fetch(
-        "http://localhost:3001/emotions/create",
+        "https://akoro-backend.up.railway.app/emotions/create",
         {
           method: "POST",
           headers: {

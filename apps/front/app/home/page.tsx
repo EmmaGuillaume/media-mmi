@@ -26,7 +26,7 @@ export default function HomeConnected() {
   const getVisibleArticle = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/articles/visible",
+        "https://akoro-backend.up.railway.app/articles/visible",
         {
           method: "GET",
         }

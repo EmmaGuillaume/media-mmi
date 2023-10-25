@@ -70,7 +70,7 @@ export default function HomeConnected() {
     
     try {
       const response = await fetch(
-        "http://localhost:3001/articles/create",
+        "https://akoro-backend.up.railway.app/articles/create",
         {
           method: "POST",
           headers: {
@@ -101,7 +101,7 @@ export default function HomeConnected() {
   // const getCategories = async () => {
   //   try {
   //     const response = await fetch(
-  //       "http://localhost:3001/categories/all",
+  //       "https://akoro-backend.up.railway.app/categories/all",
   //       {
   //         method: "GET",
   //       }
@@ -116,7 +116,7 @@ export default function HomeConnected() {
   const getEmotion = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/emotions/all",
+        "https://akoro-backend.up.railway.app/emotions/all",
         {
           method: "GET",
         }
