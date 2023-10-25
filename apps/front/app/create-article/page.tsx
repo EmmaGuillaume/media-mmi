@@ -43,7 +43,7 @@ export default function HomeConnected() {
     };
 
     try {
-      const response = await fetch("https://akoro-backend.up.railway.app/hey", {
+      const response = await fetch("http://localhost:3001/create-article", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,

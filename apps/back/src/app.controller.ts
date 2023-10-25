@@ -21,9 +21,9 @@ export class AppController {
     private readonly appService: AppService,
     @Inject('SUPABASE_CLIENT')
     private supabase: SupabaseClient,
-  ) {}
+  ) { }
 
-  @Post('/hey')
+  @Post('/create-article')
   @UseGuards(SupabaseAuthGuard)
   async createArticle(@Req() req: Request) {
     const body = req.body;
@@ -44,6 +44,118 @@ export class AppController {
       return {
         ok: true,
       };
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Get('/all-articles')
+  @UseGuards(SupabaseAuthGuard)
+  async seeAllArticles(@Req() req: Request) {
+    // const body = req.body;
+    try {
+      const { data: articles, error } = await this.supabase
+        .from('articles')
+        .select('*');
+        Logger.log({ articles });
+        Logger.log({ error });
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Get('/visible-articles')
+  async seeVisibleArticles(@Req() req: Request) {
+    // const body = req.body;
+    try {
+      const { data: articles, error } = await this.supabase
+        .from('articles')
+        .select('*')
+        .is('visibility', true);
+        Logger.log({ articles });
+        Logger.log({ error });
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Post('/create-category')
+  @UseGuards(SupabaseAuthGuard)
+  async createCategory(@Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('categories')
+        .insert({
+          name: body.name,
+        })
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Get('/all-categories')
+  async seeAllCategories(@Req() req: Request) {
+    // const body = req.body;
+    try {
+      const { data: categories, error } = await this.supabase
+        .from('categories')
+        .select('*');
+        Logger.log({ categories });
+        Logger.log({ error });
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Post('/create-emotion')
+  @UseGuards(SupabaseAuthGuard)
+  async createEmotion(@Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('emotions')
+        .insert({
+          name: body.name,
+        })
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      return error;
+    }
+  }
+
+  @Get('/all-emotions')
+  async seeAllEmotions(@Req() req: Request) {
+    // const body = req.body;
+    try {
+      const { data: emotions, error } = await this.supabase
+        .from('emotions')
+        .select('*');
+        Logger.log({ emotions });
+        Logger.log({ error });
     } catch (error) {
       Logger.log(error);
       console.log(error);
