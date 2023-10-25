@@ -127,6 +127,7 @@ export class AppController {
           image: body.image,
           short_video: body.short_video,
           long_video: body.long_video,
+          visibility: body.visibility,
         }) 
         .eq('id', id)
         .select();
@@ -258,6 +259,30 @@ export class AppController {
       throw new HttpException('Error', 500);
     }
   }
+
+  // @Post('/article-categories/create')
+  // @UseGuards(SupabaseAuthGuard)
+  // async createArticleCategoryJoint(@Req() req: Request) {
+  //   const body = req.body;
+  //   try {
+  //     const { data, error } = await this.supabase
+  //       .from('categories')
+  //       .insert({
+  //         category_id: body.category_id,
+  //         article_id: body.article_id,
+  //       })
+  //       .select();
+  //     Logger.log({ data });
+  //     Logger.log({ error });
+  //     return {
+  //       ok: true,
+  //     };
+  //   } catch (error) {
+  //     Logger.log(error);
+  //     throw new HttpException('Error', 500);
+  //   }
+  // }
+
   //MVP 3
   @Post('/emotions/create')
   @UseGuards(SupabaseAuthGuard)
