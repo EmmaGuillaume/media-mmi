@@ -54,13 +54,6 @@ export default function CreateAccount() {
     <div className="flex items-center justify-center h-screen text-blue">
       <div className="flex flex-col justify-center w-full h-screen px-12 align-middle bg-white text-primary-blue md:flex-row md:h-fit md:shadow-lg md:px-0 md:mx-8 md:w-10/12 lg:w-6/12">
         <div className="relative flex flex-col justify-center w-full align-middle md:w-9/12 md:px-12 md:py-10 ">
-          <Image
-            className="absolute hidden top-2 left-2"
-            src="/images/theseus_black.png"
-            alt=""
-            width={100}
-            height={100}
-          />
           <div className="flex flex-col gap-4 ">
             <h2 className="text-xl font-normal font-title">Create Account</h2>
             <form

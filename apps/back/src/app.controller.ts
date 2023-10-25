@@ -48,6 +48,11 @@ export class AppController {
           short_video: body.short_video,
           long_video: body.long_video,
           visibility: body.is_visible,
+          nb_positif: body.nb_positif,
+          nb_etonnant: body.nb_etonnant,
+          nb_angoissant: body.nb_angoissant,
+          nb_enervant: body.nb_enervant,
+          nb_triste: body.nb_triste,
         })
         .select();
       Logger.log({ data });
@@ -128,6 +133,11 @@ export class AppController {
           short_video: body.short_video,
           long_video: body.long_video,
           visibility: body.is_visible,
+          nb_positif: body.nb_positif,
+          nb_etonnant: body.nb_etonnant,
+          nb_angoissant: body.nb_angoissant,
+          nb_enervant: body.nb_enervant,
+          nb_triste: body.nb_triste,
         }) 
         .eq('id', id)
         .select();
@@ -150,6 +160,127 @@ export class AppController {
         .from('articles')
         .delete() 
         .eq('id', id);
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Post('/vote/create')
+  @UseGuards(SupabaseAuthGuard)
+  async createVote(@Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('profile_vote_article')
+        .insert({
+          profile_id: body.profile_id,
+          article_id: body.article_id,
+          is_positif: body.is_positif,
+          is_etonnant: body.is_etonnant,
+          is_angoissant: body.is_angoissant,
+          is_enervant: body.is_enervant,
+          is_triste: body.is_triste,
+        })
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Get('/vote/one-article')
+  @HttpCode(200)
+  async seeOneVote(@Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    const article_id = body.article_id;
+    try {
+      const { data: votes, error } = await this.supabase
+        .from('profile_vote_article')
+        .select('*')
+        .eq('profile_id', profile_id)
+        .eq('article_id', article_id);
+      Logger.log({ votes });
+      Logger.log({ error });
+      return votes;
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Get('/vote/all-articles')
+  @HttpCode(200)
+  async seeAllVotes(@Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    try {
+      const { data: votes, error } = await this.supabase
+        .from('profile_vote_article')
+        .select('*')
+        .eq('profile_id', profile_id);
+      Logger.log({ votes });
+      Logger.log({ error });
+      return votes;
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Put('/vote/update')
+  @UseGuards(SupabaseAuthGuard)
+  async updateVote(@Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    const article_id = body.article_id;
+    try {
+      const { data, error } = await this.supabase
+        .from('profile_vote_article')
+        .update({
+          is_positif: body.is_positif,
+          is_etonnant: body.is_etonnant,
+          is_angoissant: body.is_angoissant,
+          is_enervant: body.is_enervant,
+          is_triste: body.is_triste,
+        }) 
+        .eq('profile_id', profile_id)
+        .eq('article_id', article_id)
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Delete('/vote/delete')
+  @UseGuards(SupabaseAuthGuard)
+  async deleteVote(@Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    const article_id = body.article_id;
+    try {
+      const { data, error } = await this.supabase
+        .from('profile_vote_article')
+        .delete() 
+        .eq('profile_id', profile_id)
+        .eq('article_id', article_id);
       Logger.log({ data });
       Logger.log({ error });
       return {
@@ -322,6 +453,66 @@ export class AppController {
     } catch (error) {
       Logger.log(error);
       console.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Get('/emotions/:id')
+  @HttpCode(200)
+  async seeOneEmotion(@Param('id') id: string) {
+    try {
+      const { data: emotions, error } = await this.supabase
+        .from('emotions')
+        .select('*')
+        .eq('id', id);
+      Logger.log({ emotions });
+      Logger.log({ error });
+      return emotions;
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Put('/emotions/update/:id')
+  @UseGuards(SupabaseAuthGuard)
+  async updateEmotion(@Param('id') id: string, @Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('emotions')
+        .update({
+          name: body.name,
+        }) 
+        .eq('id', id)
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  @Delete('/emotions/delete/:id')
+  @UseGuards(SupabaseAuthGuard)
+  async deleteEmotion(@Param('id') id: string) {
+    try {
+      const { data, error } = await this.supabase
+        .from('emotions')
+        .delete() 
+        .eq('id', id);
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
       throw new HttpException('Error', 500);
     }
   }
