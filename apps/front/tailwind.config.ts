@@ -16,6 +16,11 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "card-text-green": "url('/assets/bg-card-green.svg')",
+        "card-text-yellow": "url('/assets/bg-card.svg')",
+        "card-text-purple": "url('/assets/bg-card.svg')",
+        "card-text-red": "url('/assets/bg-card.svg')",
+        "card-text-blue": "url('/assets/bg-card.svg')",
       },
     },
     colors: {
