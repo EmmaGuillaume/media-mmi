@@ -31,7 +31,9 @@ export default function RootLayout({
           sizes="<generated>"
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`bg-black text-white ${inter.className}`}>
+        {children}
+      </body>
     </html>
   );
 }
