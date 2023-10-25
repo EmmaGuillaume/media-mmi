@@ -43,14 +43,17 @@ export default function HomeConnected() {
     };
 
     try {
-      const response = await fetch("http://localhost:3001/create-article", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/create-article",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       console.log(JSON.stringify(data));
 
       if (response.ok) {

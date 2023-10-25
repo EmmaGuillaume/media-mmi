@@ -22,20 +22,4 @@ export class AppService {
       return 'ERror';
     }
   }
-  // async getLastArticle() {
-  //   try {
-  //     const { data, error } = await this.supabase
-  //       .from('articles')
-  //       .select()
-  //       .order('id', { ascending: false })
-  //       .limit(1);
-  //     console.log(data);
-  //     console.log(error);
-  //     return data;
-  //   } catch (error) {
-  //     Logger.log(error);
-  //     console.log(error);
-  //     return error;
-  //   }
-  // }
 }
