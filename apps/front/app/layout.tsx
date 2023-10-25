@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Nav from "@/components/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,8 +32,11 @@ export default function RootLayout({
           sizes="<generated>"
         />
       </head>
-      <body className={`bg-black text-white font-raleway ${inter.className}`}>
+      <body
+        className={`bg-black text-white font-raleway mb-28 ${inter.className}`}
+      >
         {children}
+        <Nav />
       </body>
     </html>
   );

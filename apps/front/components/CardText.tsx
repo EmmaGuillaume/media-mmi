@@ -22,7 +22,7 @@ export default function CardText({ id, title, introduction }: Article) {
         </div>
         <div className="mx-6">
           <div className="flex flex-col gap-2 mt-6 mb-12">
-            <h2 className="text-2xl font-extrabold">{title}</h2>
+            <h2 className="text-2xl font-extrabold uppercase">{title}</h2>
             <p className="font-thin">{introduction}</p>
           </div>
           <div className="flex gap-4">
@@ -35,7 +35,7 @@ export default function CardText({ id, title, introduction }: Article) {
       <div className="absolute bottom-0 right-0 pt-3 pl-3 bg-black rounded-tl-xl w-fit">
         <button
           onClick={() => {
-            router.push(`/home/${id}`);
+            router.push(`/article/${id}`);
           }}
           className="px-6 py-2 text-black rounded-lg bg-green-light2"
         >
