@@ -6,7 +6,7 @@ import { accessTokenAtom } from "@/store";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
 import CardText from "@/components/CardText";
-import { Article } from "@/types/gloabl";
+import { Article } from "@/types/global";
 
 export default function HomeConnected() {
   const accessToken = useAtomValue(accessTokenAtom);

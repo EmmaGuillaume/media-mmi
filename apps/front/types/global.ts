@@ -8,5 +8,5 @@ export type Article = {
   short_video: string;
   title: string;
   updated_at: string;
-  visibility: boolean;
+  is_visible: boolean;
 };

@@ -47,7 +47,7 @@ export class AppController {
           image: body.image,
           short_video: body.short_video,
           long_video: body.long_video,
-          visibility: body.visibility,
+          visibility: body.is_visible,
         })
         .select();
       Logger.log({ data });
@@ -127,7 +127,7 @@ export class AppController {
           image: body.image,
           short_video: body.short_video,
           long_video: body.long_video,
-          visibility: body.visibility,
+          visibility: body.is_visible,
         }) 
         .eq('id', id)
         .select();
