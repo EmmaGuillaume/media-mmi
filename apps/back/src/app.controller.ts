@@ -47,6 +47,7 @@ export class AppController {
           image: body.image,
           short_video: body.short_video,
           long_video: body.long_video,
+          visibility: body.visibility,
         })
         .select();
       Logger.log({ data });
