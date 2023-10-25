@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import Image from "next/image";
-import LeftArrowIcon from "@/public/images/icons/left-arrow.svg";
+// import LeftArrowIcon from "@/public/images/icons/left-arrow.svg";
 import { useRouter } from "next/navigation";
 
 export default function HomeConnected() {
@@ -10,34 +10,34 @@ export default function HomeConnected() {
 
   return (
     <main className="px-6 pt-10 font-raleway mb-36">
-      <div className="flex items-center gap-8 w-full">
+      <div className="flex items-center w-full gap-8">
         <button
           onClick={() => {
             router.push("./home");
           }}
         >
-          <Image src={LeftArrowIcon} alt="Left Arrow" />
+          {/* <Image src={LeftArrowIcon} alt="Left Arrow" /> */}
         </button>
-        <h2 className="text-center font-extrabold text-3xl">Paramètres</h2>
+        <h2 className="text-3xl font-extrabold text-center">Paramètres</h2>
       </div>
 
       <section className="w-full mt-10">
-        <h3 className="font-extrabold text-2xl mb-6">
+        <h3 className="mb-6 text-2xl font-extrabold">
           Informations personnelles
         </h3>
-        <form className="w-full flex flex-col gap-4">
+        <form className="flex flex-col w-full gap-4">
           <input
-            className="bg-grey h-12 rounded-xl w-full px-4 py-2 focus:outline-blue"
+            className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
             type="text"
             placeholder="Nom"
           />
           <input
-            className="bg-grey h-12 rounded-xl w-full px-4 py-2 focus:outline-blue"
+            className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
             type="text"
             placeholder="Email"
           />
           <input
-            className="bg-grey h-12 rounded-xl w-full px-4 py-2 focus:outline-blue"
+            className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
             type="password"
             placeholder="Password"
           />
@@ -46,102 +46,102 @@ export default function HomeConnected() {
 
       <section className="w-full mt-10">
         <div>
-          <h3 className="font-extrabold text-2xl mb-6">
+          <h3 className="mb-6 text-2xl font-extrabold">
             Préférences de contenu
           </h3>
-          <p className="w-full font-thin text-lg">
+          <p className="w-full text-lg font-thin">
             Fusce et tempor risus, ut feugiat tortor. Nam gravida magna id
             viverra finibus. Donec quis lorem a orci commodo efficitur. Aenean
             vestibulum urna ut eros pharetra blandit.
           </p>
           <div className="mt-8">
-            <h3 className="font-bold text-xl mb-4">Format préféré</h3>
-            <form className="w-full items-start flex flex-col gap-4">
-              <div className="flex gap-4 items-center">
+            <h3 className="mb-4 text-xl font-bold">Format préféré</h3>
+            <form className="flex flex-col items-start w-full gap-4">
+              <div className="flex items-center gap-4">
                 <input
-                  className=" h-8 rounded-xl w-full px-4 py-2 focus:outline-blue"
+                  className="w-full h-8 px-4 py-2 rounded-xl focus:outline-blue"
                   type="checkbox"
                   placeholder="Nom"
                 />
-                <label className="font-thin text-lg">Vidéo</label>
+                <label className="text-lg font-thin">Vidéo</label>
               </div>
-              <div className="flex gap-4 items-center">
+              <div className="flex items-center gap-4">
                 <input
-                  className=" h-8 rounded-xl w-full px-4 py-2 focus:outline-blue"
+                  className="w-full h-8 px-4 py-2 rounded-xl focus:outline-blue"
                   type="checkbox"
                   placeholder="Nom"
                 />
-                <label className="font-thin text-lg">Audio</label>
+                <label className="text-lg font-thin">Audio</label>
               </div>
-              <div className="flex gap-4 items-center">
+              <div className="flex items-center gap-4">
                 <input
-                  className=" h-8 rounded-xl w-full px-4 py-2 focus:outline-blue"
+                  className="w-full h-8 px-4 py-2 rounded-xl focus:outline-blue"
                   type="checkbox"
                   placeholder="Nom"
                 />
-                <label className="font-thin text-lg">Text</label>
+                <label className="text-lg font-thin">Text</label>
               </div>
             </form>
           </div>
         </div>
 
         <div className="mt-8">
-          <h3 className="font-bold text-xl mb-4">Catégories préférées</h3>
-          <div className="w-full items-start flex flex-col gap-4">
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+          <h3 className="mb-4 text-xl font-bold">Catégories préférées</h3>
+          <div className="flex flex-col items-start w-full gap-4">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Géo po
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Géo po
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Géo po
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Géo po
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Géo po
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Géo po
             </button>
           </div>
         </div>
 
         <div className="mt-8">
-          <h3 className="font-bold text-xl mb-4">
+          <h3 className="mb-4 text-xl font-bold">
             Émotions des actualités personnalisées
           </h3>
-          <div className="w-full items-start flex flex-col gap-4">
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+          <div className="flex flex-col items-start w-full gap-4">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Triste
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Enervant
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Positif
             </button>
-            <button className="bg-grey h-12 rounded-xl w-full px-4 py-2 text-start active:bg-black active:outline-blue">
+            <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Intéressant
             </button>
           </div>
         </div>
 
         <div className="mt-20">
-          <h3 className="font-extrabold text-2xl mb-6">Notification </h3>
-          <p className="w-full font-thin text-lg">
+          <h3 className="mb-6 text-2xl font-extrabold">Notification </h3>
+          <p className="w-full text-lg font-thin">
             Fusce et tempor risus, ut feugiat tortor. Nam gravida magna id
             viverra finibus. Donec quis lorem a orci commodo efficitur. Aenean
             vestibulum urna ut eros pharetra blandit.
           </p>
           <div className="mt-8">
-            <h3 className="font-bold text-xl mb-4">
+            <h3 className="mb-4 text-xl font-bold">
               Récurrence des notifications
             </h3>
-            <form className="w-full items-start flex flex-col gap-4">
-              <select className="bg-grey h-12 rounded-xl w-full px-4 py-2 focus:outline-blue">
+            <form className="flex flex-col items-start w-full gap-4">
+              <select className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue">
                 <option value="">--Please choose an option--</option>
                 <option value="daily">1 fois par jour</option>
                 <option value="weekly">1 fois par semaine</option>
