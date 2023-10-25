@@ -21,7 +21,7 @@ export class AppController {
     private readonly appService: AppService,
     @Inject('SUPABASE_CLIENT')
     private supabase: SupabaseClient,
-  ) { }
+  ) {}
 
   @Post('/create-article')
   @UseGuards(SupabaseAuthGuard)
@@ -59,8 +59,9 @@ export class AppController {
       const { data: articles, error } = await this.supabase
         .from('articles')
         .select('*');
-        Logger.log({ articles });
-        Logger.log({ error });
+      Logger.log({ articles });
+      Logger.log({ error });
+      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
@@ -76,8 +77,9 @@ export class AppController {
         .from('articles')
         .select('*')
         .is('visibility', true);
-        Logger.log({ articles });
-        Logger.log({ error });
+      Logger.log({ articles });
+      Logger.log({ error });
+      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
@@ -115,8 +117,9 @@ export class AppController {
       const { data: categories, error } = await this.supabase
         .from('categories')
         .select('*');
-        Logger.log({ categories });
-        Logger.log({ error });
+      Logger.log({ categories });
+      Logger.log({ error });
+      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
@@ -154,8 +157,9 @@ export class AppController {
       const { data: emotions, error } = await this.supabase
         .from('emotions')
         .select('*');
-        Logger.log({ emotions });
-        Logger.log({ error });
+      Logger.log({ emotions });
+      Logger.log({ error });
+      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
