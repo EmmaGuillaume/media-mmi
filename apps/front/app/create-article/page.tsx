@@ -14,11 +14,22 @@ type Article = {
   short_video: string;
   long_video: string;
   is_visible: boolean;
+  voted_emotion: VotedEmotion[];
 };
 type Category = {
   id: number;
   name: string;
 };
+type Emotion = {
+  id: number;
+  name: string;
+};
+
+type VotedEmotion = {
+  name: string;
+  is_voted: boolean;
+};
+type EmotionSelection = { [key: string]: boolean };
 
 export default function HomeConnected() {
   const router = useRouter();
@@ -30,12 +41,21 @@ export default function HomeConnected() {
   const imageRef = useRef<any>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [categoryList, setCategoryList] = useState<Category[]>([]);
+  const [emotionsList, setEmotionsList] = useState<Emotion[]>([]);
+  const [selectedEmotions, setSelectedEmotions] = useState<VotedEmotion[]>([]);
 
   const accessToken = useAtomValue(accessTokenAtom);
   console.log(
     "🚀 ~ file: page.tsx:30 ~ HomeConnected ~ accessToken:",
     accessToken
   );
+  const updateEmotionSelection = (emotion: string) => {
+    const updatedEmotions: VotedEmotion[] = emotionsList.map((e) => ({
+      name: e.name,
+      is_voted: e.name === emotion,
+    }));
+    setSelectedEmotions(updatedEmotions);
+  };
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -48,20 +68,18 @@ export default function HomeConnected() {
       short_video: shortVideoRef.current,
       long_video: longVideoRef.current,
       is_visible: isVisible,
+      voted_emotion: selectedEmotions,
     };
 
     try {
-      const response = await fetch(
-        "https://akoro-backend.up.railway.app/articles/create",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("http://localhost:3001/articles/create", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       console.log(JSON.stringify(data));
 
       if (response.ok) {
@@ -81,12 +99,9 @@ export default function HomeConnected() {
 
   const getCategories = async () => {
     try {
-      const response = await fetch(
-        "https://akoro-backend.up.railway.app/categories/all",
-        {
-          method: "GET",
-        }
-      );
+      const response = await fetch("http://localhost:3001/categories/all", {
+        method: "GET",
+      });
 
       setCategoryList(await response.json());
     } catch (error) {
@@ -94,9 +109,22 @@ export default function HomeConnected() {
     }
   };
 
-  console.log({ categoryList });
+  const getEmotion = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/emotions/all", {
+        method: "GET",
+      });
+
+      setEmotionsList(await response.json());
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  console.log({ selectedEmotions });
   useEffect(() => {
     getCategories();
+    getEmotion();
   }, []);
   return (
     <main className="px-4 py-12 font-raleway">
@@ -164,16 +192,38 @@ export default function HomeConnected() {
             longVideoRef.current = e.target.value;
           }}
         />
-
-        <div>
-          {categoryList.map((categoryList) => (
-            <div key={categoryList.id} className="flex gap-2">
-              <input type="checkbox" />
-              <label htmlFor="">{categoryList.name}</label>
-            </div>
-          ))}
+        <div className="flex flex-col gap-2">
+          <p>À quelle émotion correspond cet article ?</p>
+          <select
+            className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
+            onChange={(e) => updateEmotionSelection(e.target.value)}
+          >
+            {emotionsList.map((emotion) => (
+              <option key={emotion.id} value={emotion.name}>
+                {emotion.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <button type="submit">Submit</button>
+
+        <div className="flex flex-col gap-2">
+          <p>À quel thème correspond cet article ?</p>
+          <div>
+            {categoryList.map((categoryList) => (
+              <div key={categoryList.id} className="flex gap-2">
+                <input type="checkbox" />
+                <label htmlFor="">{categoryList.name}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <button
+          className="w-full h-12 mt-6 rounded-full bg-purple-dark1"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
     </main>
   );
