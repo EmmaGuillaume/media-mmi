@@ -72,14 +72,17 @@ export default function HomeConnected() {
     };
 
     try {
-      const response = await fetch("http://localhost:3001/articles/create", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/articles/create",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       console.log(JSON.stringify(data));
 
       if (response.ok) {
@@ -99,9 +102,12 @@ export default function HomeConnected() {
 
   const getCategories = async () => {
     try {
-      const response = await fetch("http://localhost:3001/categories/all", {
-        method: "GET",
-      });
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/categories/all",
+        {
+          method: "GET",
+        }
+      );
 
       setCategoryList(await response.json());
     } catch (error) {
@@ -111,9 +117,12 @@ export default function HomeConnected() {
 
   const getEmotion = async () => {
     try {
-      const response = await fetch("http://localhost:3001/emotions/all", {
-        method: "GET",
-      });
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/emotions/all",
+        {
+          method: "GET",
+        }
+      );
 
       setEmotionsList(await response.json());
     } catch (error) {
