@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { accessTokenAtom } from "@/store";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
+import CardText from "@/components/CardText";
 
 export default function HomeConnected() {
   const accessToken = useAtomValue(accessTokenAtom);
@@ -19,17 +20,26 @@ export default function HomeConnected() {
       console.error("error : ", error);
     }
   };
+  const getAllArticle = async () => {};
 
   console.log("accessToken", { accessToken });
 
   return (
-    <main className="flex flex-col justify-center bg-slate-200">
+    <main className="flex flex-col justify-center px-4 bg-slate-200">
       <div className="text-purple bg-blue-light1 font-raleway">
         Connected, welcome !
       </div>
       <button onClick={handleSignOut} className="bg-red">
         Sign out
       </button>
+      <div className="flex flex-col gap-16">
+        <CardText
+          title="Noopy chez les schtroumpfs"
+          id={2}
+          introduction="Noopy se balade dans le pay des mouettes et tombe sur Gargamel qui le ramène dans son monde, là bas, il vivra des centaines d'aventeures avec ses amis les schtroumpfs."
+        />
+      </div>
+
       {/* <div>{greeting}</div> */}
       <div className="snap-y ">
         {/* <video
