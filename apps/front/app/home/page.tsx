@@ -32,7 +32,7 @@ export default function HomeConnected() {
       <button onClick={handleSignOut} className="bg-red">
         Sign out
       </button>
-      <div className="flex flex-col gap-16">
+      <div className="flex flex-col gap-20">
         <CardText
           title="Noopy chez les schtroumpfs"
           id={2}

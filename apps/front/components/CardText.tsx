@@ -18,7 +18,7 @@ export default function CardText({ id, title, introduction }: Article) {
     <div className="relative bg-no-repeat bg-cover font-raleway rounded-2xl bg-card-text-green">
       <div className="pt-8 pb-4">
         <div className="flex items-center justify-end h-6 pl-6 pr-8 rounded-r-full w-fit bg-green">
-          <div className="text-black">Voté étonnant à 70%</div>
+          <div className="text-black">Voté étonnant à 70% ah !</div>
         </div>
         <div className="mx-6">
           <div className="flex flex-col gap-2 mt-6 mb-12">
