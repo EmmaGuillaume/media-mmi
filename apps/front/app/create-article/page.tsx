@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { accessTokenAtom } from "@/store";
@@ -13,6 +13,11 @@ type Article = {
   image: string;
   short_video: string;
   long_video: string;
+  is_visible: boolean;
+};
+type Category = {
+  id: number;
+  name: string;
 };
 
 export default function HomeConnected() {
@@ -23,6 +28,8 @@ export default function HomeConnected() {
   const contentRef = useRef<any>(null);
   const shortVideoRef = useRef<any>(null);
   const imageRef = useRef<any>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [categoryList, setCategoryList] = useState<Category[]>([]);
 
   const accessToken = useAtomValue(accessTokenAtom);
   console.log(
@@ -40,6 +47,7 @@ export default function HomeConnected() {
       image: imageRef.current,
       short_video: shortVideoRef.current,
       long_video: longVideoRef.current,
+      is_visible: isVisible,
     };
 
     try {
@@ -71,64 +79,100 @@ export default function HomeConnected() {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/categories/all",
+        {
+          method: "GET",
+        }
+      );
+
+      setCategoryList(await response.json());
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+
+  console.log({ categoryList });
+  useEffect(() => {
+    getCategories();
+  }, []);
   return (
-    <main className="px-4 py-12">
+    <main className="px-4 py-12 font-raleway">
       <form
-        className="flex flex-col w-full gap-2"
+        className="flex flex-col w-full gap-4"
         onSubmit={(event) => {
           handleFormSubmit(event);
         }}
       >
-        Create an article
+        <h2 className="text-3xl font-extrabold"> {"Création d'article"}</h2>
+        <div className="flex gap-2">
+          <input
+            type="checkbox"
+            checked={isVisible}
+            onChange={() => {
+              setIsVisible(!isVisible);
+            }}
+          />
+          <label htmlFor="">Article {isVisible ? "affiché" : "masqué"}</label>
+        </div>
         <input
           type="text"
-          placeholder="title"
-          className="p-2 border-2 rounded-md"
+          placeholder="Titre"
+          className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
           onChange={(e) => {
             titleRef.current = e.target.value;
             console.log(titleRef.current);
           }}
         />
-        <input
-          type="text"
-          placeholder="introduction"
-          className="p-2 border-2 rounded-md"
+        <textarea
+          className="w-full px-4 py-2 h-36 bg-grey rounded-xl focus:outline-blue"
+          placeholder="Introduction"
           onChange={(e) => {
             introductionRef.current = e.target.value;
           }}
         />
-        <input
-          type="text"
-          placeholder="content"
-          className="p-2 border-2 rounded-md"
+        <textarea
+          className="w-full h-56 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
+          placeholder="Contenu"
           onChange={(e) => {
             contentRef.current = e.target.value;
           }}
         />
         <input
           type="text"
-          placeholder="image"
-          className="p-2 border-2 rounded-md"
+          placeholder="Url de l'image"
+          className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
           onChange={(e) => {
             imageRef.current = e.target.value;
           }}
         />
         <input
           type="text"
-          placeholder="short"
-          className="p-2 border-2 rounded-md"
+          placeholder="Url de la vidéo courte"
+          className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
           onChange={(e) => {
             shortVideoRef.current = e.target.value;
           }}
         />
         <input
           type="text"
-          placeholder="long"
-          className="p-2 border-2 rounded-md"
+          placeholder="Url de la vidéo longue"
+          className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
           onChange={(e) => {
             longVideoRef.current = e.target.value;
           }}
         />
+
+        <div>
+          {categoryList.map((categoryList) => (
+            <div key={categoryList.id} className="flex gap-2">
+              <input type="checkbox" />
+              <label htmlFor="">{categoryList.name}</label>
+            </div>
+          ))}
+        </div>
         <button type="submit">Submit</button>
       </form>
     </main>

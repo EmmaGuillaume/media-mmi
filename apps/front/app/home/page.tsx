@@ -1,16 +1,18 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { accessTokenAtom } from "@/store";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
 import CardText from "@/components/CardText";
+import { Article } from "@/types/gloabl";
 
 export default function HomeConnected() {
   const accessToken = useAtomValue(accessTokenAtom);
   const router = useRouter();
   const videoRef = useRef<any>(null);
+  const [articleList, setArticleList] = useState<Article[]>([]);
 
   const handleSignOut = async () => {
     try {
@@ -20,9 +22,26 @@ export default function HomeConnected() {
       console.error("error : ", error);
     }
   };
-  const getAllArticle = async () => {};
+
+  const getVisibleArticle = async () => {
+    try {
+      const response = await fetch(
+        "https://akoro-backend.up.railway.app/articles/visible",
+        {
+          method: "GET",
+        }
+      );
+
+      setArticleList(await response.json());
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   console.log("accessToken", { accessToken });
+  useEffect(() => {
+    getVisibleArticle();
+  }, []);
 
   return (
     <main className="flex flex-col justify-center px-4 bg-slate-200">
@@ -33,11 +52,14 @@ export default function HomeConnected() {
         Sign out
       </button>
       <div className="flex flex-col gap-20">
-        <CardText
-          title="Noopy chez les schtroumpfs"
-          id={2}
-          introduction="Noopy se balade dans le pay des mouettes et tombe sur Gargamel qui le ramène dans son monde, là bas, il vivra des centaines d'aventeures avec ses amis les schtroumpfs."
-        />
+        {articleList.map((article) => (
+          <CardText
+            key={article.id}
+            title={article.title}
+            id={article.id}
+            introduction={article.introduction}
+          />
+        ))}
       </div>
 
       {/* <div>{greeting}</div> */}
