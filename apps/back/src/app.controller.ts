@@ -1,6 +1,8 @@
 import {
   Controller,
   Get,
+  HttpCode,
+  HttpException,
   Inject,
   Logger,
   Post,
@@ -22,6 +24,11 @@ export class AppController {
     @Inject('SUPABASE_CLIENT')
     private supabase: SupabaseClient,
   ) {}
+
+  @Get()
+  getHello(): string {
+    return 'eus';
+  }
 
   @Post('/create-article')
   @UseGuards(SupabaseAuthGuard)
@@ -52,8 +59,9 @@ export class AppController {
   }
 
   @Get('/all-articles')
-  @UseGuards(SupabaseAuthGuard)
-  async seeAllArticles(@Req() req: Request) {
+  // @UseGuards(SupabaseAuthGuard)
+  @HttpCode(200)
+  async seeAllArticles() {
     // const body = req.body;
     try {
       const { data: articles, error } = await this.supabase
@@ -61,16 +69,16 @@ export class AppController {
         .select('*');
       Logger.log({ articles });
       Logger.log({ error });
-      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
-      return error;
+      throw new HttpException('Error', 500);
     }
   }
 
   @Get('/visible-articles')
-  async seeVisibleArticles(@Req() req: Request) {
+  @HttpCode(200)
+  async seeVisibleArticles() {
     // const body = req.body;
     try {
       const { data: articles, error } = await this.supabase
@@ -79,14 +87,14 @@ export class AppController {
         .is('visibility', true);
       Logger.log({ articles });
       Logger.log({ error });
-      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
-      return error;
+
+      throw new HttpException('Error', 500);
     }
   }
-
+  //MVP 3
   @Post('/create-category')
   @UseGuards(SupabaseAuthGuard)
   async createCategory(@Req() req: Request) {
@@ -111,24 +119,24 @@ export class AppController {
   }
 
   @Get('/all-categories')
-  async seeAllCategories(@Req() req: Request) {
-    // const body = req.body;
+  @HttpCode(200)
+  async seeAllCategories() {
     try {
       const { data: categories, error } = await this.supabase
         .from('categories')
         .select('*');
       Logger.log({ categories });
       Logger.log({ error });
-      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
-      return error;
+      throw new HttpException('Error', 500);
     }
   }
-
+  //MVP 3
   @Post('/create-emotion')
   @UseGuards(SupabaseAuthGuard)
+  @HttpCode(200)
   async createEmotion(@Req() req: Request) {
     const body = req.body;
     try {
@@ -146,12 +154,13 @@ export class AppController {
     } catch (error) {
       Logger.log(error);
       console.log(error);
-      return error;
+      throw new HttpException('Error', 500);
     }
   }
 
   @Get('/all-emotions')
-  async seeAllEmotions(@Req() req: Request) {
+  @HttpCode(200)
+  async seeAllEmotions() {
     // const body = req.body;
     try {
       const { data: emotions, error } = await this.supabase
@@ -159,15 +168,15 @@ export class AppController {
         .select('*');
       Logger.log({ emotions });
       Logger.log({ error });
-      Logger.log({ req });
     } catch (error) {
       Logger.log(error);
       console.log(error);
-      return error;
+      throw new HttpException('Error', 500);
     }
   }
 
   @Get('/user')
+  @HttpCode(200)
   getExampleData(@Req() request: Request) {
     // The 'Authorization' header can be accessed here
     const authorizationHeader = request.headers.authorization;
