@@ -14,6 +14,16 @@ export default function Article() {
   const router = useRouter();
   const accessToken = useAtomValue(accessTokenAtom);
   const [article, setArticle] = useState<Article[]>([]);
+  const [percentArray, setPercentArray] = useState<number[]>([]);
+
+  const emotionCounts = {
+    surpisingId: 0,
+    angoissantId: 0,
+    angryId: 0,
+    positifId: 0,
+    sadId: 0,
+  };
+  const Emotion = ["Étonnant", "Angoissant", "Énervant", "Positif", "Triste"];
 
   useEffect(() => {
     const url = window.location.href;
@@ -22,12 +32,9 @@ export default function Article() {
 
     const getOneArticle = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3001/articles/${id}`,
-          {
-            method: "GET",
-          }
-        );
+        const response = await fetch(`http://localhost:3001/articles/${id}`, {
+          method: "GET",
+        });
 
         const articleData = await response.json();
         setArticle(articleData);
@@ -47,32 +54,68 @@ export default function Article() {
 
         const votesData = await response.json();
         const nbTotalVotes = votesData.length;
-        console.log('votesData : ',votesData);
-        console.log('nbTotalVotes : ',nbTotalVotes);
-        
-        if(!nbTotalVotes) {
-          console.log('Article has no votes');
-          // Use article default emotion value on the article
+
+        if (!nbTotalVotes) {
+          console.log("Article has no votes");
         } else {
-          console.log('Article has votes');
-          // For each array of votesData -> count the amount of each emotion_id value
-          
-          // Get the most voted emotion
+          votesData.forEach((vote: any) => {
+            console.log("AAA", vote.emotion_id);
 
-          // Use the most voted emotion id to get the name in the Emotion table
-            // const seeOneEmotion() with server path : '/emotions/:id'
+            console.log("vote : ", vote.emotion_id);
+            if (vote.emotion_id === 3) {
+              emotionCounts.positifId++;
+            }
+            if (vote.emotion_id === 4) {
+              emotionCounts.sadId++;
+            }
+            if (vote.emotion_id === 2) {
+              emotionCounts.angryId++;
+            }
+            if (vote.emotion_id === 0) {
+              emotionCounts.surpisingId++;
+            }
+            if (vote.emotion_id === 1) {
+              emotionCounts.angoissantId++;
+            }
+          });
         }
-
+        PercentOfVotes();
       } catch (error) {
         console.error("Error fetching article:", error);
       }
+    };
+
+    const PercentOfVotes = () => {
+      const totalVotes = Object.values(emotionCounts).reduce(
+        (a: number, b: number) => a + b,
+        0
+      );
+      const percentOfVotes = Object.values(emotionCounts).map(
+        (emotionCount: number) => {
+          return Math.round((emotionCount / totalVotes) * 100);
+        }
+      );
+      console.log(percentOfVotes);
+      setPercentArray(percentOfVotes);
+      console.log({ percentArray });
+
+      return percentOfVotes;
     };
 
     getOneArticle();
     seeAllVotesOnArticle();
   }, []);
 
-  console.log(article);
+  function getMaxEmotion() {
+    const maxPercent = Math.max(...percentArray);
+    const maxEmotionIndex = percentArray.indexOf(maxPercent);
+    return Emotion[maxEmotionIndex];
+  }
+
+  function getMaxEmotionPercent() {
+    const maxPercent = Math.max(...percentArray);
+    return `${maxPercent}%`;
+  }
 
   return (
     <main className="flex flex-col justify-center  bg-slate-200 font-raleway">
@@ -106,7 +149,10 @@ export default function Article() {
           <Image src={ShareIcon} alt=""></Image>
           <div>
             <p className=""> Vote des lecteurs :</p>
-            <p className=""> Angoissant 80%</p>
+            <p className="">
+              {percentArray.length > 0 && getMaxEmotion()}
+              {percentArray.length > 0 && getMaxEmotionPercent()}
+            </p>{" "}
           </div>
         </div>
         <div className=" flex gap-2">
