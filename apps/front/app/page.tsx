@@ -45,13 +45,8 @@ export default function HomeConnected() {
 
   return (
     <main className="flex flex-col justify-center px-4 bg-slate-200">
-      <div className="text-purple bg-blue-light1 font-raleway">
-        Connected, welcome !
-      </div>
-      <button onClick={handleSignOut} className="bg-red">
-        Sign out
-      </button>
-      <div className="flex flex-col gap-20">
+      <button onClick={handleSignOut}>Sign out</button>
+      <div className="flex flex-col gap-24">
         {articleList.map((article) => (
           <CardText
             key={article.id}

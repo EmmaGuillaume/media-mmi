@@ -135,7 +135,7 @@ export class AppController {
           long_video: body.long_video,
           visibility: body.is_visible,
           default_emotion: body.default_emotion,
-        }) 
+        })
         .eq('id', id)
         .select();
       Logger.log({ data });
@@ -156,7 +156,7 @@ export class AppController {
     try {
       const { data, error } = await this.supabase
         .from('articles')
-        .delete() 
+        .delete()
         .eq('id', id);
       Logger.log({ data });
       Logger.log({ error });
@@ -169,7 +169,6 @@ export class AppController {
     }
   }
 
-  
   // Create one emotion
   @Post('/emotions/create')
   @UseGuards(SupabaseAuthGuard)
@@ -242,7 +241,7 @@ export class AppController {
         .from('emotions')
         .update({
           name: body.name,
-        }) 
+        })
         .eq('id', id)
         .select();
       Logger.log({ data });
@@ -263,7 +262,7 @@ export class AppController {
     try {
       const { data, error } = await this.supabase
         .from('emotions')
-        .delete() 
+        .delete()
         .eq('id', id);
       Logger.log({ data });
       Logger.log({ error });
@@ -304,13 +303,17 @@ export class AppController {
   // Read votes on one article
   @Get('/articles/vote/:article_id')
   @HttpCode(200)
-  async seeAllVotesOnArticle(@Param('article_id') article_id: string, @Req() req: Request) {
+  async seeAllVotesOnArticle(
+    @Param('article_id') article_id: string,
+    @Req() req: Request,
+  ) {
     try {
       const { data: votes, error } = await this.supabase
         .from('profile_vote_article')
         .select('*')
         .eq('article_id', article_id);
       Logger.log({ votes });
+      Logger.log({ req });
       Logger.log({ error });
       return votes;
     } catch (error) {
@@ -342,7 +345,10 @@ export class AppController {
   // Read profile vote on one article
   @Get('/profile/vote/:article_id')
   @HttpCode(200)
-  async seeProfileVoteOnArticle(@Param('article_id') article_id: string, @Req() req: Request) {
+  async seeProfileVoteOnArticle(
+    @Param('article_id') article_id: string,
+    @Req() req: Request,
+  ) {
     const body = req.body;
     const profile_id = body.profile_id;
     try {
@@ -363,7 +369,10 @@ export class AppController {
   // Update profile vote on one article
   @Put('/profile/vote/update/:article_id')
   @UseGuards(SupabaseAuthGuard)
-  async updateVote(@Param('article_id') article_id: string, @Req() req: Request) {
+  async updateVote(
+    @Param('article_id') article_id: string,
+    @Req() req: Request,
+  ) {
     const body = req.body;
     const profile_id = body.profile_id;
     try {
@@ -371,7 +380,7 @@ export class AppController {
         .from('profile_vote_article')
         .update({
           emotion_id: body.emotion_id,
-        }) 
+        })
         .eq('profile_id', profile_id)
         .eq('article_id', article_id)
         .select();
@@ -389,13 +398,16 @@ export class AppController {
   // Delete profile vote on one article
   @Delete('/profile/vote/delete/:article_id')
   @UseGuards(SupabaseAuthGuard)
-  async deleteVote(@Param('article_id') article_id: string, @Req() req: Request) {
+  async deleteVote(
+    @Param('article_id') article_id: string,
+    @Req() req: Request,
+  ) {
     const body = req.body;
     const profile_id = body.profile_id;
     try {
       const { data, error } = await this.supabase
         .from('profile_vote_article')
-        .delete() 
+        .delete()
         .eq('profile_id', profile_id)
         .eq('article_id', article_id);
       Logger.log({ data });
@@ -480,7 +492,7 @@ export class AppController {
   //       .from('categories')
   //       .update({
   //         name: body.name,
-  //       }) 
+  //       })
   //       .eq('id', id)
   //       .select();
   //     Logger.log({ data });
@@ -501,7 +513,7 @@ export class AppController {
   //   try {
   //     const { data, error } = await this.supabase
   //       .from('categories')
-  //       .delete() 
+  //       .delete()
   //       .eq('id', id);
   //     Logger.log({ data });
   //     Logger.log({ error });
