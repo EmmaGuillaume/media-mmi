@@ -21,7 +21,7 @@ export default function Article() {
     const getOneArticle = async () => {
       try {
         const response = await fetch(
-          `https://akoro-backend.up.railway.app/articles/${id}`,
+          `http://localhost:3001/articles/${id}`,
           {
             method: "GET",
           }
@@ -34,7 +34,40 @@ export default function Article() {
       }
     };
 
+    const seeAllVotesOnArticle = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/articles/vote/${id}`,
+          {
+            method: "GET",
+          }
+        );
+
+        const votesData = await response.json();
+        const nbTotalVotes = votesData.length;
+        console.log('votesData : ',votesData);
+        console.log('nbTotalVotes : ',nbTotalVotes);
+        
+        if(!nbTotalVotes) {
+          console.log('Article has no votes');
+          // Use article default emotion value on the article
+        } else {
+          console.log('Article has votes');
+          // For each array of votesData -> count the amount of each emotion_id value
+          
+          // Get the most voted emotion
+
+          // Use the most voted emotion id to get the name in the Emotion table
+            // const seeOneEmotion() with server path : '/emotions/:id'
+        }
+
+      } catch (error) {
+        console.error("Error fetching article:", error);
+      }
+    };
+
     getOneArticle();
+    seeAllVotesOnArticle();
   }, []);
 
   console.log(article);
