@@ -5,8 +5,8 @@ import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { accessTokenAtom } from "@/store";
-import { useAtom, useAtomValue } from "jotai";
+import { accessTokenAtom, userIdAtom } from "@/store";
+import { useAtom, useSetAtom } from "jotai";
 import { GetServerSideProps } from "next";
 import axios from "axios";
 
@@ -18,6 +18,8 @@ interface IFormInput {
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
+  const setUserId = useSetAtom(userIdAtom);
+
   const router = useRouter();
   const {
     register,
@@ -37,7 +39,9 @@ export default function Login() {
 
     if (!error && session) {
       console.log("🚀 ~ file: page.tsx:39 ~ onSubmit ~ session:", session);
-      router.replace("./home");
+      router.replace("./");
+      setUserId(session.user.id);
+      console.log(session.user.id);
       setAccessToken(session.access_token);
       fetch("https://akoro-backend.up.railway.app/", {
         headers: { Authorization: `Bearer ${accessToken}` },

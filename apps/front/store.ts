@@ -31,3 +31,5 @@ export const accessTokenAtom: PrimitiveAtom<string> = atomWithLocalStorage(
   "accessTokenAtom",
   ""
 );
+
+export const userIdAtom: PrimitiveAtom<string> = atom("");
