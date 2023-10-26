@@ -37,7 +37,7 @@ export default function Login() {
 
     if (!error && session) {
       console.log("🚀 ~ file: page.tsx:39 ~ onSubmit ~ session:", session);
-      router.replace("./home");
+      router.replace("/");
       setAccessToken(session.access_token);
       fetch("https://akoro-backend.up.railway.app/", {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -57,87 +57,87 @@ export default function Login() {
     }
 
     if (error) {
-      console.error(error.message);
+      console.error('error : ',error.message);
     }
   };
 
   return (
-    <div className="flex items-center justify-center h-screen text-blue">
-      <div className="flex flex-col justify-center w-full h-screen px-12 align-middle bg-white text-primary-blue md:flex-row md:h-fit md:shadow-lg md:px-0 md:mx-8 md:w-10/12 lg:w-6/12">
-        <div className="relative flex flex-col justify-center w-full align-middle md:w-9/12 md:px-12 md:py-10 ">
-          <Image
-            className="absolute hidden top-2 left-2"
-            src="/images/theseus_black.png"
-            alt=""
-            width={100}
-            height={100}
-          />
-          <div className="flex flex-col gap-4 ">
-            <h2 className="text-xl font-normal font-title">Login</h2>
-            <form
-              className="flex flex-col gap-4 text-base font-text"
-              onSubmit={handleSubmit(onSubmit)}
-              noValidate
-            >
-              <label className="flex flex-col" htmlFor="">
-                E-mail
-                <input
-                  className={`"placeholder:text-black-40 px-2 py-1.5 border rounded-md focus:outline-[#2684FF]" ${
-                    errors.email ? "border-red-500" : "border-black-20"
-                  }`}
-                  type="email"
-                  placeholder="E-mail"
-                  // onChange={(e) => setEmail(e.target.value)}
-                  {...register("email", {
-                    required: "The email filed is required",
-                    pattern: {
-                      value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/,
-                      message: "You must enter a valid email",
-                    },
-                  })}
-                />
-                {errors.email && (
-                  <span className="text-red-500">{errors.email.message}</span>
-                )}
-              </label>
-              <label className="flex flex-col">
-                Password
-                <div className="flex items-center gap-2">
-                  <input
-                    className={`placeholder:text-black-40 px-2 py-1.5 border rounded-md focus:outline-[#2684FF] w-full ${
-                      errors.password ? "border-red-500" : "border-black-20"
-                    }`}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
-                    {...register("password", { required: true })}
-                  />
-                </div>
-                {errors.password && (
-                  <span className="text-red-500">
-                    This password field is required
-                  </span>
-                )}
-                <Link
-                  className="text-xs text-grey w-fit"
-                  href="/auth/forgot-password"
-                >
-                  Forgot password?
-                </Link>
-                <Link className="text-xs text-grey" href="/auth/create-account">
-                  {`Don't have an account? Register!`}
-                </Link>
-              </label>
-              <button
-                type="submit"
-                className="flex items-center justify-center gap-5 px-12 py-3 mt-2 text-blue-500 align-middle rounded-md w-fit "
-              >
-                Sign in
-              </button>
-            </form>
-          </div>
-        </div>
-        <div className="hidden bg-cover bg-login md:flex md:w-3/12"></div>
+    <main className="px-6 pt-10 font-raleway mb-36">
+      <div className="flex items-center justify-center w-full gap-8">
+        <h1 className="text-3xl font-extrabold text-center">Connexion</h1>
       </div>
-    </div>
+      <section className="w-full mt-10">
+        <form
+          className="flex flex-col w-full max-w-md mx-auto gap-4"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
+          <div className="relative">
+            <input
+              type="email"
+              id="email"
+              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.email ? "bg-red-dark2" : "bg-grey"
+                }`}
+              placeholder=" "
+              {...register("email", {
+                required: "L'e-mail est obligatoire",
+                pattern: {
+                  value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/,
+                  message: "L'e-mail saisi n'est pas valide",
+                },
+              })}
+            />
+            <label
+              htmlFor=""
+              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+              E-mail
+            </label>
+            {errors.email && (
+              <span className="text-red text-sm font-raleway">{errors.email.message}</span>
+            )}
+          </div>
+
+          <div className="relative">
+            <input
+              type="password"
+              id="password"
+              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.password ? "bg-red-dark2" : "bg-grey"
+                }`}
+              placeholder=" "
+              {...register("password", {
+                required: "Le mot de passe est obligatoire",
+              })}
+            />
+            <label
+              htmlFor=""
+              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+              Mot de passe
+            </label>
+            {errors.password && (
+              <span className="text-red text-sm font-raleway">{errors.password.message}</span>
+            )}
+          </div>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="flex items-center justify-center gap-5 px-5 py-3 mt-8 mb-7 text-black align-middle rounded-2xl w-fit bg-white hover:bg-orange-hover"
+            >
+              Se connecter
+            </button>
+          </div>
+        </form>
+        <div className="flex flex-col items-center justify-center">
+          {/* <Link className="text-white mb-4 text-sm font-light" href="#">
+            Mot de passe oublié ?
+          </Link> */}
+          <Link className="text-white mb-4 text-sm font-light" href="/auth/create-account">
+            Créer un compte
+          </Link>
+          <Link className="text-white text-sm font-light" href="/">
+            Continuer sans se connecter
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }

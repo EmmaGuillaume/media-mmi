@@ -3,8 +3,12 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PinIcon from "@/public/assets/icons/pin-icon.svg";
 import ShareIcon from "@/public/assets/icons/share-icon.svg";
+import VoteCard from "@/components/EmotionsChoiceModal";
 import { title } from "process";
-
+import { useState, useRef } from "react";
+import EmotionIcon from "@/public/assets/icons/emotion-icon.svg";
+import { accessTokenAtom } from "@/store";
+import { useAtomValue } from "jotai";
 type Article = {
   id: number;
   title: string;
@@ -13,6 +17,8 @@ type Article = {
 
 export default function CardText({ id, title, introduction }: Article) {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const accessToken = useAtomValue(accessTokenAtom);
 
   return (
     <div className="relative bg-no-repeat bg-cover font-raleway rounded-2xl bg-card-text-green">
@@ -25,9 +31,21 @@ export default function CardText({ id, title, introduction }: Article) {
             <h2 className="text-2xl font-extrabold uppercase">{title}</h2>
             <p className="font-thin">{introduction}</p>
           </div>
+
           <div className="flex gap-4">
             <Image src={ShareIcon} alt="" />
             <Image src={PinIcon} alt="" />
+            {accessToken && (
+              <button>
+                <Image
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                  }}
+                  src={EmotionIcon}
+                  alt=""
+                />
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -42,6 +60,7 @@ export default function CardText({ id, title, introduction }: Article) {
           Voir +
         </button>
       </div>
+      <VoteCard isOpen={isOpen} setIsOpen={setIsOpen} idArticle={id} />
     </div>
   );
 }
