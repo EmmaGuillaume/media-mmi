@@ -37,7 +37,7 @@ export default function Article() {
     const seeAllVotesOnArticle = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/articles/vote/${id}`,
+          `https://akoro-backend.up.railway.app/articles/vote/${id}`,
           {
             method: "GET",
           }
