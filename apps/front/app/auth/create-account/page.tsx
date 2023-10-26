@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { useForm } from "react-hook-form";
+import React, { useRef } from 'react';
 // import { toast } from "react-toastify";
 import Link from "next/link";
 // import fetcher from "@/libs/fetcher";
@@ -11,24 +12,31 @@ import { accessTokenAtom } from "@/store";
 import { getAuthTokenCodeVerifierCookie } from "@/lib/cookies";
 
 interface IFormInput {
+  name: string;
   email: string;
   password: string;
+  passwordConfirm: string;
 }
 
 export default function CreateAccount() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<IFormInput>();
   const accessToken = useAtomValue(accessTokenAtom);
+
+  const password = useRef({});
+  password.current = watch("password", "");
 
   const onSubmit = async (data: IFormInput) => {
     const { error: signUpError } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
-        emailRedirectTo: `${location.origin}/auth/create-password?email=${data.email}`,
+        // emailRedirectTo: `${location.origin}/auth/create-password?email=${data.email}`,
+        emailRedirectTo: `${location.origin}/`,
       },
     });
 
@@ -51,67 +59,122 @@ export default function CreateAccount() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen text-blue">
-      <div className="flex flex-col justify-center w-full h-screen px-12 align-middle bg-white text-primary-blue md:flex-row md:h-fit md:shadow-lg md:px-0 md:mx-8 md:w-10/12 lg:w-6/12">
-        <div className="relative flex flex-col justify-center w-full align-middle md:w-9/12 md:px-12 md:py-10 ">
-          <div className="flex flex-col gap-4 ">
-            <h2 className="text-xl font-normal font-title">Create Account</h2>
-            <form
-              className="flex flex-col gap-4 text-base font-text"
-              onSubmit={handleSubmit(onSubmit)}
-              noValidate
-            >
-              <label className="flex flex-col" htmlFor="">
-                E-mail
-                <input
-                  className={`"placeholder:text-black-40 px-2 py-1.5 border rounded-md focus:border-[#2684FF] focus:outline-none focus:border-[2px]" ${
-                    errors.email ? "border-red-500" : "border-black-20"
-                  }`}
-                  type="email"
-                  placeholder="E-mail"
-                  {...register("email", {
-                    required: "The email filed is required",
-                    pattern: {
-                      value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/,
-                      message: "You must enter a valid email",
-                    },
-                  })}
-                />
-                {errors.email && (
-                  <span className="text-red-500">{errors.email.message}</span>
-                )}
-              </label>
-              <label className="flex flex-col" htmlFor="">
-                Password
-                <input
-                  className={`"placeholder:text-black-40 px-2 py-1.5 border rounded-md focus:border-[#2684FF] focus:outline-none focus:border-[2px]" ${
-                    errors.email ? "border-red-500" : "border-black-20"
-                  }`}
-                  type="password"
-                  placeholder="Password"
-                  {...register("password", {
-                    required: "The password filed is required",
-                  })}
-                />
-                {errors.email && (
-                  <span className="text-red-500">{errors.email.message}</span>
-                )}
-              </label>
-              <button
-                type="submit"
-                className="flex items-center justify-center gap-5 px-12 py-3 mt-2 text-white align-middle rounded-md w-fit bg-blue-dark1 hover:bg-orange-hover"
-              >
-                Register
-              </button>
-            </form>
-            <label className="text-center ">Or sign in with</label>
-            <Link className="text-xs text-grey" href="/auth">
-              I already have an account!
-            </Link>
-          </div>
-        </div>
-        <div className="hidden bg-cover bg-login md:flex md:w-3/12"></div>
+    <main className="px-6 pt-10 font-raleway mb-36">
+      <div className="flex items-center justify-center w-full gap-8">
+        <h1 className="text-3xl font-extrabold text-center">Créer un compte</h1>
       </div>
-    </div>
+      <section className="w-full mt-10">
+        <h2 className="mb-6 text-2xl font-extrabold">
+          Informations personnelles
+        </h2>
+        <form
+          className="flex flex-col w-full gap-4"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+        >
+          <div className="relative">
+            <input
+              type="text"
+              id=""
+              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.name ? "bg-red-dark2" : "bg-grey"
+                }`}
+              placeholder=" "
+              {...register("name", {
+                required: "Le nom est obligatoire",
+              })}
+              />
+            <label
+              htmlFor=""
+              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+              Nom
+            </label>
+            {errors.name && (
+              <span className="text-red">{errors.name.message}</span>
+            )}
+          </div>
+          <div className="relative">
+            <input
+              type="email"
+              id=""
+              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.email ? "bg-red-dark2" : "bg-grey"
+                }`}
+              placeholder=" "
+              {...register("email", {
+                required: "L'e-mail est obligatoire",
+                pattern: {
+                  value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,10})+$/,
+                  message: "L'e-mail saisi n'est pas valide",
+                },
+              })}
+            />
+            <label
+              htmlFor=""
+              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+              E-mail
+            </label>
+            {errors.email && (
+              <span className="text-red">{errors.email.message}</span>
+            )}
+          </div>
+
+          <div className="relative">
+            <input
+              type="password"
+              id="password"
+              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.password ? "bg-red-dark2" : "bg-grey"
+                }`}
+              placeholder=" "
+              {...register("password", {
+                required: "Le mot de passe est obligatoire",
+              })}
+            />
+            <label
+              htmlFor=""
+              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+              Mot de passe
+            </label>
+            {errors.password && (
+              <span className="text-red">{errors.password.message}</span>
+            )}
+          </div>
+
+          <div className="relative">
+            <input
+              type="password"
+              id="password-confirm"
+              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.passwordConfirm ? "bg-red-dark2" : "bg-grey"
+                }`}
+              placeholder=" "
+              {...register("passwordConfirm", {
+                required: "Le mot de passe de confirmation est obligatoire",
+                validate: value =>
+                  value === password.current || "Les mots de passe ne sont pas identiques",
+              })}
+            />
+            <label
+              htmlFor=""
+              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
+              Confirmation du mot de passe
+            </label>
+            {errors.passwordConfirm && (
+              <span className="text-red">{errors.passwordConfirm.message}</span>
+            )}
+          </div>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="flex items-center justify-center gap-5 px-5 py-3 mt-2 mb-7 text-black align-middle rounded-xl w-fit bg-white hover:bg-orange-hover"
+            >
+              Continuer
+            </button>
+          </div>
+        </form>
+        <div className="flex flex-col items-center justify-center">
+          <Link className="text-white" href="/auth">
+            Annuler
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }
