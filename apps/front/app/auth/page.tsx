@@ -130,7 +130,7 @@ export default function Login() {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="flex items-center justify-center gap-5 px-5 py-3 mt-8 mb-7 text-black align-middle rounded-2xl w-fit bg-white hover:bg-orange-hover"
+              className="flex items-center justify-center gap-5 px-5 py-3 mt-8 mb-7 text-black font-medium align-middle rounded-2xl w-fit bg-white"
             >
               Se connecter
             </button>
