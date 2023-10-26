@@ -22,9 +22,25 @@ export default function Article() {
     angryId: 0,
     positifId: 0,
     sadId: 0,
+    noVoteId: 0,
   };
   const Emotion = ["Étonnant", "Angoissant", "Énervant", "Positif", "Triste"];
+  const maxEmotion = getMaxEmotion();
+  let coloredEmotion = "";
 
+  if (maxEmotion === "Positif") {
+    coloredEmotion = "bg-green-dark1";
+  } else if (maxEmotion === "Triste") {
+    coloredEmotion = "bg-blue-dark1";
+  } else if (maxEmotion === "Énervant") {
+    coloredEmotion = "bg-red-dark1";
+  } else if (maxEmotion === "Étonnant") {
+    coloredEmotion = "bg-yellow-dark1";
+  } else if (maxEmotion === "Angoissant") {
+    coloredEmotion = "bg-purple-dark1";
+  }
+
+  console.log("coloredEmotion", coloredEmotion);
   useEffect(() => {
     const url = window.location.href;
     const urlParts = url.split("/");
@@ -46,20 +62,23 @@ export default function Article() {
     const seeAllVotesOnArticle = async () => {
       try {
         const response = await fetch(
-          `https://akoro-backend.up.railway.app/articles/vote/${id}`,
+          `http://localhost:3001/articles/vote/${id}`,
           {
             method: "GET",
           }
         );
 
         const votesData = await response.json();
+        console.log("votesData", votesData);
         const nbTotalVotes = votesData.length;
+        console.log("nbTotalVotes", nbTotalVotes);
 
         if (!nbTotalVotes) {
           console.log("Article has no votes");
+          return;
         } else {
           votesData.forEach((vote: any) => {
-            console.log("AAA", vote.emotion_id);
+            console.log("AAA", vote);
 
             console.log("vote : ", vote.emotion_id);
             if (vote.emotion_id === 3) {
@@ -109,6 +128,8 @@ export default function Article() {
   function getMaxEmotion() {
     const maxPercent = Math.max(...percentArray);
     const maxEmotionIndex = percentArray.indexOf(maxPercent);
+    console.log("maxEmotionIndex", maxEmotionIndex);
+
     return Emotion[maxEmotionIndex];
   }
 
@@ -123,7 +144,7 @@ export default function Article() {
         className={
           article[0]?.image
             ? "relative h-56 overflow-hidden"
-            : "relative h-32 overflow-hidden bg-purple-dark1"
+            : "relative h-32 overflow-hidden bg-black"
         }
       >
         {article[0]?.image && (
@@ -144,15 +165,21 @@ export default function Article() {
           <Image src={ArrowIcon} alt=""></Image>
         </button>
       </div>
-      <section className="bg-purple-dark1 px-6 h-20 flex items-center gap-8">
+      <section
+        className={`${coloredEmotion} px-6 h-20 flex items-center gap-8`}
+      >
         <div className="flex gap-2">
           <Image src={ShareIcon} alt=""></Image>
           <div>
             <p className=""> Vote des lecteurs :</p>
-            <p className="">
-              {percentArray.length > 0 && getMaxEmotion()}
-              {percentArray.length > 0 && getMaxEmotionPercent()}
-            </p>{" "}
+            {!percentArray.length ? (
+              <p className="">Pas encore de vote</p>
+            ) : (
+              <p className="">
+                {percentArray.length > 0 && getMaxEmotion()}
+                {percentArray.length > 0 && getMaxEmotionPercent()}
+              </p>
+            )}
           </div>
         </div>
         <div className=" flex gap-2">
