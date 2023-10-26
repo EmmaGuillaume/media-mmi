@@ -2,3 +2,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.focus-rainbow:focus {
+    border: 2px solid transparent;
+    background:
+        linear-gradient(#202020, #202020) padding-box,
+        linear-gradient(93deg, #FFCA3A -1.99%, #F43A3D 12.35%, #A359FF 33.6%, #5F3CC9 48.47%, #3597D0 66%, #24B2B7 79.81%, #19AF62 100%) border-box;
+}

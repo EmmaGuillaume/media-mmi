@@ -20,7 +20,7 @@ export default function HomeConnected() {
 
   return (
     <main className="px-6 pt-10 font-raleway mb-36">
-      <div className="flex items-center w-full gap-8">
+      <div className="flex items-center justify-center w-full gap-8">
         <button
           onClick={() => {
             router.push("./home");
@@ -28,16 +28,17 @@ export default function HomeConnected() {
         >
           {/* <Image src={LeftArrowIcon} alt="Left Arrow" /> */}
         </button>
-        <h2 className="text-3xl font-extrabold text-center">Paramètres</h2>
+        <h1 className="text-3xl font-extrabold text-center">Paramètres</h1>
       </div>
 
       <section className="w-full mt-10">
         <button onClick={handleSignOut} className="bg-red">
           Sign out
         </button>
-        <h3 className="mb-6 text-2xl font-extrabold">
+
+        <h2 className="mb-6 text-2xl font-extrabold">
           Informations personnelles
-        </h3>
+        </h2>
         <form className="flex flex-col w-full gap-4">
           <input
             className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
@@ -59,16 +60,16 @@ export default function HomeConnected() {
 
       <section className="w-full mt-10">
         <div>
-          <h3 className="mb-6 text-2xl font-extrabold">
+          <h2 className="mb-6 text-2xl font-extrabold">
             Préférences de contenu
-          </h3>
+          </h2>
           <p className="w-full text-lg font-thin">
             Fusce et tempor risus, ut feugiat tortor. Nam gravida magna id
             viverra finibus. Donec quis lorem a orci commodo efficitur. Aenean
             vestibulum urna ut eros pharetra blandit.
           </p>
           <div className="mt-8">
-            <h3 className="mb-4 text-xl font-bold">Format préféré</h3>
+            <h2 className="mb-4 text-xl font-bold">Format préféré</h2>
             <form className="flex flex-col items-start w-full gap-4">
               <div className="flex items-center gap-4">
                 <input
@@ -99,7 +100,7 @@ export default function HomeConnected() {
         </div>
 
         <div className="mt-8">
-          <h3 className="mb-4 text-xl font-bold">Catégories préférées</h3>
+          <h2 className="mb-4 text-xl font-bold">Catégories préférées</h2>
           <div className="flex flex-col items-start w-full gap-4">
             <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Géo po
@@ -123,9 +124,9 @@ export default function HomeConnected() {
         </div>
 
         <div className="mt-8">
-          <h3 className="mb-4 text-xl font-bold">
+          <h2 className="mb-4 text-xl font-bold">
             Émotions des actualités personnalisées
-          </h3>
+          </h2>
           <div className="flex flex-col items-start w-full gap-4">
             <button className="w-full h-12 px-4 py-2 bg-grey rounded-xl text-start active:bg-black active:outline-blue">
               Triste
@@ -143,16 +144,16 @@ export default function HomeConnected() {
         </div>
 
         <div className="mt-20">
-          <h3 className="mb-6 text-2xl font-extrabold">Notification </h3>
+          <h2 className="mb-6 text-2xl font-extrabold">Notification </h2>
           <p className="w-full text-lg font-thin">
             Fusce et tempor risus, ut feugiat tortor. Nam gravida magna id
             viverra finibus. Donec quis lorem a orci commodo efficitur. Aenean
             vestibulum urna ut eros pharetra blandit.
           </p>
           <div className="mt-8">
-            <h3 className="mb-4 text-xl font-bold">
+            <h2 className="mb-4 text-xl font-bold">
               Récurrence des notifications
-            </h3>
+            </h2>
             <form className="flex flex-col items-start w-full gap-4">
               <select className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue">
                 <option value="">--Please choose an option--</option>
