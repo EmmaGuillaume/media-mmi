@@ -14,7 +14,7 @@ type Article = {
   short_video: string;
   long_video: string;
   is_visible: boolean;
-  default_emotion: number,
+  default_emotion: number;
 };
 // type Category = {
 //   id: number;
@@ -67,7 +67,7 @@ export default function HomeConnected() {
       is_visible: isVisible,
       default_emotion: emotionRef.current,
     };
-    
+
     try {
       const response = await fetch(
         "https://akoro-backend.up.railway.app/articles/create",
@@ -95,7 +95,6 @@ export default function HomeConnected() {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
-    
   };
 
   // const getCategories = async () => {
@@ -204,8 +203,9 @@ export default function HomeConnected() {
             className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
             onChange={(e) => {
               emotionRef.current = e.target.value;
-              console.log("emotionRef : ",emotionRef.current);
-            }}>
+              console.log("emotionRef : ", emotionRef.current);
+            }}
+          >
             {emotionsList.map((emotion) => (
               <option key={emotion.id} value={emotion.id}>
                 {emotion.name}
