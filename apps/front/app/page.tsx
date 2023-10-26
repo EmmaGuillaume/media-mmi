@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { accessTokenAtom } from "@/store";
+import { accessTokenAtom, userIdAtom } from "@/store";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
 import CardText from "@/components/CardText";
@@ -16,6 +16,7 @@ export default function HomeConnected() {
   const videoRef = useRef<any>(null);
   const [articleList, setArticleList] = useState<Article[]>([]);
   const [isTextFormat, setIsTextFormat] = useState<boolean>(true);
+  const userId = useAtomValue(userIdAtom);
 
   const getVisibleArticle = async () => {
     try {
@@ -33,6 +34,8 @@ export default function HomeConnected() {
   };
 
   console.log("accessToken", { accessToken });
+  console.log("userId", { userId });
+
   useEffect(() => {
     getVisibleArticle();
   }, []);
@@ -94,7 +97,6 @@ export default function HomeConnected() {
             />
           ))}
         </div>
-
       </div>
     </main>
   );

@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { accessTokenAtom, userIdAtom } from "@/store";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { GetServerSideProps } from "next";
 import axios from "axios";
 
@@ -19,7 +19,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
   const router = useRouter();
-  const setUserId = useSetAtom(userIdAtom);
+  const [userId, setUserId] = useAtom(userIdAtom);
   const {
     register,
     handleSubmit,
