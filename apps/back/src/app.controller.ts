@@ -496,6 +496,29 @@ export class AppController {
     }
   }
 
+  @Post('/profile/upsert/format')
+  @UseGuards(SupabaseAuthGuard)
+  async upsertProfileFormat(@Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('profiles')
+        .upsert({
+          format: body.format,
+        })
+        .eq('id', body.id)
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
   // Read one user profile
   @Get('/profile/read')
   @HttpCode(200)
@@ -528,7 +551,7 @@ export class AppController {
         .from('profiles')
         .update({
           name: body.name,
-        }) 
+        })
         .eq('id', profile_id)
         .select();
       Logger.log({ data });
@@ -541,7 +564,6 @@ export class AppController {
       throw new HttpException('Error', 500);
     }
   }
-
 
   // MVP 3 : DO NOT USE
   // // Create one category
