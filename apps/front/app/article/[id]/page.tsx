@@ -14,7 +14,33 @@ export default function Article() {
   const router = useRouter();
   const accessToken = useAtomValue(accessTokenAtom);
   const [article, setArticle] = useState<Article[]>([]);
+  const [percentArray, setPercentArray] = useState<number[]>([]);
 
+  const emotionCounts = {
+    surpisingId: 0,
+    angoissantId: 0,
+    angryId: 0,
+    positifId: 0,
+    sadId: 0,
+    noVoteId: 0,
+  };
+  const Emotion = ["Étonnant", "Angoissant", "Énervant", "Positif", "Triste"];
+  const maxEmotion = getMaxEmotion();
+  let coloredEmotion = "";
+
+  if (maxEmotion === "Positif") {
+    coloredEmotion = "bg-green-dark1";
+  } else if (maxEmotion === "Triste") {
+    coloredEmotion = "bg-blue-dark1";
+  } else if (maxEmotion === "Énervant") {
+    coloredEmotion = "bg-red-dark1";
+  } else if (maxEmotion === "Étonnant") {
+    coloredEmotion = "bg-yellow-dark1";
+  } else if (maxEmotion === "Angoissant") {
+    coloredEmotion = "bg-purple-dark1";
+  }
+
+  console.log("coloredEmotion", coloredEmotion);
   useEffect(() => {
     const url = window.location.href;
     const urlParts = url.split("/");
@@ -22,6 +48,7 @@ export default function Article() {
 
     const getOneArticle = async () => {
       try {
+        const response = await fetch(`http://localhost:3001/articles/${id}`, {
         const response = await fetch(`https://akoro-backend.up.railway.app/articles/${id}`, {
           method: "GET",
         });
@@ -36,39 +63,82 @@ export default function Article() {
     const seeAllVotesOnArticle = async () => {
       try {
         const response = await fetch(
-          `https://akoro-backend.up.railway.app/articles/vote/${id}`,
+          `http://localhost:3001/articles/vote/${id}`,
           {
             method: "GET",
           }
         );
 
         const votesData = await response.json();
+        console.log("votesData", votesData);
         const nbTotalVotes = votesData.length;
-        console.log("votesData : ", votesData);
-        console.log("nbTotalVotes : ", nbTotalVotes);
+        console.log("nbTotalVotes", nbTotalVotes);
 
         if (!nbTotalVotes) {
           console.log("Article has no votes");
-          // Use article default emotion value on the article
+          return;
         } else {
-          console.log("Article has votes");
-          // For each array of votesData -> count the amount of each emotion_id value
+          votesData.forEach((vote: any) => {
+            console.log("AAA", vote);
 
-          // Get the most voted emotion
-
-          // Use the most voted emotion id to get the name in the Emotion table
-          // const seeOneEmotion() with server path : '/emotions/:id'
+            console.log("vote : ", vote.emotion_id);
+            if (vote.emotion_id === 3) {
+              emotionCounts.positifId++;
+            }
+            if (vote.emotion_id === 4) {
+              emotionCounts.sadId++;
+            }
+            if (vote.emotion_id === 2) {
+              emotionCounts.angryId++;
+            }
+            if (vote.emotion_id === 0) {
+              emotionCounts.surpisingId++;
+            }
+            if (vote.emotion_id === 1) {
+              emotionCounts.angoissantId++;
+            }
+          });
         }
+        PercentOfVotes();
+
       } catch (error) {
         console.error("Error fetching article:", error);
       }
+    };
+
+    const PercentOfVotes = () => {
+      const totalVotes = Object.values(emotionCounts).reduce(
+        (a: number, b: number) => a + b,
+        0
+      );
+      const percentOfVotes = Object.values(emotionCounts).map(
+        (emotionCount: number) => {
+          return Math.round((emotionCount / totalVotes) * 100);
+        }
+      );
+      console.log(percentOfVotes);
+      setPercentArray(percentOfVotes);
+      console.log({ percentArray });
+
+      return percentOfVotes;
     };
 
     getOneArticle();
     seeAllVotesOnArticle();
   }, []);
 
-  console.log(article);
+  function getMaxEmotion() {
+    const maxPercent = Math.max(...percentArray);
+    const maxEmotionIndex = percentArray.indexOf(maxPercent);
+    console.log("maxEmotionIndex", maxEmotionIndex);
+
+    return Emotion[maxEmotionIndex];
+  }
+
+  function getMaxEmotionPercent() {
+    const maxPercent = Math.max(...percentArray);
+    return `${maxPercent}%`;
+  }
 
   return (
     <main className="flex flex-col justify-center  bg-slate-200 font-raleway">
@@ -76,7 +146,7 @@ export default function Article() {
         className={
           article[0]?.image
             ? "relative h-56 overflow-hidden"
-            : "relative h-32 overflow-hidden bg-purple-dark1"
+            : "relative h-32 overflow-hidden bg-black"
         }
       >
         {article[0]?.image && (
@@ -97,12 +167,21 @@ export default function Article() {
           <Image src={ArrowIcon} alt=""></Image>
         </button>
       </div>
-      <section className="bg-purple-dark1 px-6 h-20 flex items-center gap-8">
+      <section
+        className={`${coloredEmotion} px-6 h-20 flex items-center gap-8`}
+      >
         <div className="flex gap-2">
           <Image src={ShareIcon} alt=""></Image>
           <div>
             <p className=""> Vote des lecteurs :</p>
-            <p className=""> Angoissant 80%</p>
+            {!percentArray.length ? (
+              <p className="">Pas encore de vote</p>
+            ) : (
+              <p className="">
+                {percentArray.length > 0 && getMaxEmotion()}
+                {percentArray.length > 0 && getMaxEmotionPercent()}
+              </p>
+            )}
           </div>
         </div>
         <div className=" flex gap-2">
