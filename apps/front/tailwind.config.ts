@@ -9,11 +9,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      aspectRatio: {
+        "9/16": "9 / 16",
+      },
+      maxWidth: {
+        "3/4": "75%",
+      },
       fontFamily: {
         raleway: ["Raleway"],
       },
       fontSize: {
-        xs: '0.5rem',
+        xs: "0.5rem",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

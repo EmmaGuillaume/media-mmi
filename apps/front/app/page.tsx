@@ -1,27 +1,18 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { supabase } from "@/lib/supabase";
 import { accessTokenAtom } from "@/store";
 import { useRouter } from "next/navigation";
 import { useAtomValue } from "jotai";
 import CardText from "@/components/CardText";
 import { Article } from "@/types/global";
+import VideoList from "@/components/VideoList";
 
 export default function HomeConnected() {
   const accessToken = useAtomValue(accessTokenAtom);
   const router = useRouter();
   const videoRef = useRef<any>(null);
   const [articleList, setArticleList] = useState<Article[]>([]);
-
-  const handleSignOut = async () => {
-    try {
-      await supabase.auth.signOut();
-      router.replace("/auth");
-    } catch (error) {
-      console.error("error : ", error);
-    }
-  };
 
   const getVisibleArticle = async () => {
     try {
@@ -44,14 +35,13 @@ export default function HomeConnected() {
   }, []);
 
   return (
-    <main className="flex flex-col justify-center px-4 bg-slate-200">
-      <div className="text-purple bg-blue-light1 font-raleway">
-        Connected, welcome !
+    <main className="flex flex-col justify-center bg-slate-200">
+      <div className="">
+        <div className="h-16 bg-blakc">aaa</div>
+        <VideoList />
       </div>
-      <button onClick={handleSignOut} className="bg-red">
-        Sign out
-      </button>
-      <div className="flex flex-col gap-20">
+
+      {/* <div className="flex flex-col gap-20">
         {articleList.map((article) => (
           <CardText
             key={article.id}
@@ -60,7 +50,7 @@ export default function HomeConnected() {
             introduction={article.introduction}
           />
         ))}
-      </div>
+      </div> */}
 
       {/* <div>{greeting}</div> */}
       <div className="snap-y ">

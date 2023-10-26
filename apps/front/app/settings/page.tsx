@@ -1,12 +1,22 @@
 "use client";
 import { useRef } from "react";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+
 // import LeftArrowIcon from "@/public/images/icons/left-arrow.svg";
 import { useRouter } from "next/navigation";
 
 export default function HomeConnected() {
   const videoRef = useRef<any>(null);
   const router = useRouter();
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      router.replace("/auth");
+    } catch (error) {
+      console.error("error : ", error);
+    }
+  };
 
   return (
     <main className="px-6 pt-10 font-raleway mb-36">
@@ -22,6 +32,9 @@ export default function HomeConnected() {
       </div>
 
       <section className="w-full mt-10">
+        <button onClick={handleSignOut} className="bg-red">
+          Sign out
+        </button>
         <h3 className="mb-6 text-2xl font-extrabold">
           Informations personnelles
         </h3>
