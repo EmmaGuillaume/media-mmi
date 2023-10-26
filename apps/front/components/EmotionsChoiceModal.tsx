@@ -22,7 +22,7 @@ export default function VoteCard({ isOpen, setIsOpen, idArticle }: Props) {
   console.log({ userid });
   const voteEmotion = async (emotion: number) => {
     const data = {
-      profile_id: userIdAtom,
+      profile_id: userid,
       article_id: idArticle,
       emotion_id: emotion,
     };
