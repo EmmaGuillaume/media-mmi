@@ -409,6 +409,77 @@ export class AppController {
     }
   }
 
+  // Create one user profile
+  @Post('/profile/create')
+  @UseGuards(SupabaseAuthGuard)
+  async createProfile(@Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('profiles')
+        .insert({
+          id: body.id,
+          name: body.name,
+          format: body.format,
+        })
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // Read one user profile
+  @Get('/profile/read')
+  @HttpCode(200)
+  async seeOneProfile(@Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    try {
+      const { data: profile, error } = await this.supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', profile_id);
+      Logger.log({ profile });
+      Logger.log({ error });
+      return profile;
+    } catch (error) {
+      Logger.log(error);
+      console.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
+  // Update one user profile
+  @Put('/profile/update')
+  @UseGuards(SupabaseAuthGuard)
+  async updateProfile(@Req() req: Request) {
+    const body = req.body;
+    const profile_id = body.profile_id;
+    try {
+      const { data, error } = await this.supabase
+        .from('profiles')
+        .update({
+          name: body.name,
+        }) 
+        .eq('id', profile_id)
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+  
   // MVP 3 : DO NOT USE
   // // Create one category
   // @Post('/categories/create')
