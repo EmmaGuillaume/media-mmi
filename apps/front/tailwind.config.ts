@@ -24,7 +24,6 @@ const config: Config = {
         "card-text-purple": "url('/assets/bg-card.svg')",
         "card-text-red": "url('/assets/bg-card.svg')",
         "card-text-blue": "url('/assets/bg-card.svg')",
-        "gradient-rainbow": "linear-gradient(transparent, transparent) padding-box, linear-gradient(to right, darkblue, darkorchid) border-box",
       },
     },
     colors: {

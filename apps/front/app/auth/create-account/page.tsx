@@ -10,12 +10,12 @@ import { v4 as uuid } from "uuid";
 import { useAtomValue } from "jotai";
 import { accessTokenAtom } from "@/store";
 import { getAuthTokenCodeVerifierCookie } from "@/lib/cookies";
-
 interface IFormInput {
   name: string;
   email: string;
   password: string;
   passwordConfirm: string;
+  rgpd: boolean;
 }
 
 export default function CreateAccount() {
@@ -82,9 +82,9 @@ export default function CreateAccount() {
               {...register("name", {
                 required: "Le nom est obligatoire",
               })}
-              />
+            />
             <label
-              htmlFor=""
+              htmlFor="name"
               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
               Nom
             </label>
@@ -108,7 +108,7 @@ export default function CreateAccount() {
               })}
             />
             <label
-              htmlFor=""
+              htmlFor="email"
               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
               E-mail
             </label>
@@ -129,7 +129,7 @@ export default function CreateAccount() {
               })}
             />
             <label
-              htmlFor=""
+              htmlFor="password"
               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
               Mot de passe
             </label>
@@ -152,7 +152,7 @@ export default function CreateAccount() {
               })}
             />
             <label
-              htmlFor=""
+              htmlFor="password-confirm"
               className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4">
               Confirmation du mot de passe
             </label>
@@ -160,10 +160,33 @@ export default function CreateAccount() {
               <span className="text-red text-sm font-raleway">{errors.passwordConfirm.message}</span>
             )}
           </div>
+          <div className="flex items-start">
+            <input
+              className="mt-1"
+              type="checkbox"
+              {...register("rgpd", {
+                required: "Vous devez accepter l'usage de vos données personnelles",
+              })}
+            />
+            <div className="flex flex-col ms-2">
+              <label
+                htmlFor="rgpd"
+                className="text-sm">
+                J'accepte l'utilisation de mes données personnelles.
+              </label>
+              {errors.rgpd && (
+                <span className="text-red text-sm font-raleway">{errors.rgpd.message}</span>
+              )}
+              <Link className="text-white text-sm font-light underline mt-2" href="#">
+                Consulter les détails du consentement.
+              </Link>
+              
+            </div>
+          </div>
           <div className="flex justify-center">
             <button
               type="submit"
-              className="flex items-center justify-center gap-5 px-5 py-3 mt-8 mb-7 text-black align-middle rounded-2xl w-fit bg-white hover:bg-orange-hover"
+              className="flex items-center justify-center gap-5 px-5 py-3 mt-8 mb-7 text-black font-medium align-middle rounded-2xl w-fit bg-white"
             >
               Continuer
             </button>
