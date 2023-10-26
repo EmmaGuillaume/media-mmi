@@ -300,6 +300,31 @@ export class AppController {
     }
   }
 
+  // Upsert a profile vote on one article
+  @Post('/profile/vote/upsert')
+  @UseGuards(SupabaseAuthGuard)
+  async upsertVote(@Req() req: Request) {
+    const body = req.body;
+    try {
+      const { data, error } = await this.supabase
+        .from('profile_vote_article')
+        .upsert({
+          profile_id: body.profile_id,
+          article_id: body.article_id,
+          emotion_id: body.emotion_id,
+        })
+        .select();
+      Logger.log({ data });
+      Logger.log({ error });
+      return {
+        ok: true,
+      };
+    } catch (error) {
+      Logger.log(error);
+      throw new HttpException('Error', 500);
+    }
+  }
+
   // Read votes on one article
   @Get('/articles/vote/:article_id')
   @HttpCode(200)
