@@ -1,21 +1,25 @@
 // components/VideoItem.js
 import React from "react";
 import Image from "next/image";
+import { useState, useRef, useEffect } from "react";
 
 type Props = {
-  video: {
-    title: string;
-    url: string;
-  };
+  title: string;
+  id: number;
+  shortVideo: string;
+  longVideo: string;
 };
-const VideoCard = ({ video }: Props) => {
-  const videoRef = React.useRef<any>(null);
+const VideoCard = ({ title, id, shortVideo, longVideo }: Props) => {
+  const videoRef = useRef<any>(null);
+  const [playLongVideo, setPlayLongVideo] = useState<boolean>(false);
+
+  useEffect(() => {}, [playLongVideo]);
   return (
     <>
       <div className="relative snap-center h-full">
         <video
           className="object-cover aspect-9/16"
-          src={video.url}
+          src={!playLongVideo ? shortVideo : longVideo}
           ref={videoRef}
           onClick={() => {
             videoRef.current.paused
@@ -24,10 +28,15 @@ const VideoCard = ({ video }: Props) => {
           }}
         />
         <h2 className="absolute bottom-56 max-w-3/4 font-raleway text-3xl font-extrabold left-4 uppercase">
-          {video.title}
+          {title}
         </h2>
-        <button className="absolute  gap- h-12 bottom-36 bg-red w-full text-left px-4">
-          Voir le format long
+        <button
+          onClick={() => {
+            setPlayLongVideo(!playLongVideo);
+          }}
+          className="absolute  gap- h-12 bottom-36 bg-red w-full text-left px-4"
+        >
+          Voir le format {!playLongVideo ? " long" : " court"}
         </button>
       </div>
     </>
