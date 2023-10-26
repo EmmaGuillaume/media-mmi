@@ -64,19 +64,19 @@ export default function CreateAccount() {
         <h1 className="text-3xl font-extrabold text-center">Créer un compte</h1>
       </div>
       <section className="w-full mt-10">
-        <h2 className="mb-6 text-2xl font-extrabold">
+        <h2 className="mb-6 text-2xl font-extrabold text-center">
           Informations personnelles
         </h2>
         <form
-          className="flex flex-col w-full gap-4"
+          className="flex flex-col w-full max-w-md mx-auto gap-4"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
           <div className="relative">
             <input
               type="text"
-              id=""
-              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.name ? "bg-red-dark2" : "bg-grey"
+              id="name"
+              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.name ? "bg-red-dark2" : "bg-grey"
                 }`}
               placeholder=" "
               {...register("name", {
@@ -89,14 +89,14 @@ export default function CreateAccount() {
               Nom
             </label>
             {errors.name && (
-              <span className="text-red">{errors.name.message}</span>
+              <span className="text-red text-sm font-raleway">{errors.name.message}</span>
             )}
           </div>
           <div className="relative">
             <input
               type="email"
-              id=""
-              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.email ? "bg-red-dark2" : "bg-grey"
+              id="email"
+              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.email ? "bg-red-dark2" : "bg-grey"
                 }`}
               placeholder=" "
               {...register("email", {
@@ -113,7 +113,7 @@ export default function CreateAccount() {
               E-mail
             </label>
             {errors.email && (
-              <span className="text-red">{errors.email.message}</span>
+              <span className="text-red text-sm font-raleway">{errors.email.message}</span>
             )}
           </div>
 
@@ -121,7 +121,7 @@ export default function CreateAccount() {
             <input
               type="password"
               id="password"
-              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.password ? "bg-red-dark2" : "bg-grey"
+              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.password ? "bg-red-dark2" : "bg-grey"
                 }`}
               placeholder=" "
               {...register("password", {
@@ -134,7 +134,7 @@ export default function CreateAccount() {
               Mot de passe
             </label>
             {errors.password && (
-              <span className="text-red">{errors.password.message}</span>
+              <span className="text-red text-sm font-raleway">{errors.password.message}</span>
             )}
           </div>
 
@@ -142,7 +142,7 @@ export default function CreateAccount() {
             <input
               type="password"
               id="password-confirm"
-              className={`block rounded-xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.passwordConfirm ? "bg-red-dark2" : "bg-grey"
+              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.passwordConfirm ? "bg-red-dark2" : "bg-grey"
                 }`}
               placeholder=" "
               {...register("passwordConfirm", {
@@ -157,20 +157,20 @@ export default function CreateAccount() {
               Confirmation du mot de passe
             </label>
             {errors.passwordConfirm && (
-              <span className="text-red">{errors.passwordConfirm.message}</span>
+              <span className="text-red text-sm font-raleway">{errors.passwordConfirm.message}</span>
             )}
           </div>
           <div className="flex justify-center">
             <button
               type="submit"
-              className="flex items-center justify-center gap-5 px-5 py-3 mt-2 mb-7 text-black align-middle rounded-xl w-fit bg-white hover:bg-orange-hover"
+              className="flex items-center justify-center gap-5 px-5 py-3 mt-8 mb-7 text-black align-middle rounded-2xl w-fit bg-white hover:bg-orange-hover"
             >
               Continuer
             </button>
           </div>
         </form>
         <div className="flex flex-col items-center justify-center">
-          <Link className="text-white" href="/auth">
+          <Link className="text-white text-sm font-light" href="/auth">
             Annuler
           </Link>
         </div>
