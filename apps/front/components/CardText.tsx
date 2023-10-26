@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PinIcon from "@/public/assets/icons/pin-icon.svg";
 import ShareIcon from "@/public/assets/icons/share-icon.svg";
+import CardMenu from "@/components/CardMenu";
 import { title } from "process";
 
 type Article = {
@@ -25,6 +26,7 @@ export default function CardText({ id, title, introduction }: Article) {
             <h2 className="text-2xl font-extrabold uppercase">{title}</h2>
             <p className="font-thin">{introduction}</p>
           </div>
+          <CardMenu />
           <div className="flex gap-4">
             <Image src={ShareIcon} alt="" />
             <Image src={PinIcon} alt="" />

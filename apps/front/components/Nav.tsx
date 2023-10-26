@@ -1,35 +1,38 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-// import HomeIcon from "@/public/images/icons/home.svg";
-// import SettingsIcon from "@/public/images/icons/settings.svg";
-// import AccountIcon from "@/public/images/icons/account.svg";
+import HomeIcon from "@/public/assets/icons/home-icon.svg";
+import ForYouIcon from "@/public/assets/icons/akoro-icon.svg";
+import AccountIcon from "@/public/assets/icons/account-icon.svg";
 
 export default function Nav() {
   const router = useRouter();
   return (
-    <div className="fixed w-full px-4 bottom-8">
-      <div className="flex items-center justify-between w-full h-16 px-16 text-black bg-white rounded-xl drop-shadow-md">
-        <button
+    <div className="fixed w-full bottom-0">
+      <div className="flex items-center justify-between w-full h-16 px-16 text-black bg-white drop-shadow-md">
+        <button className="flex flex-col gap-y-px items-center text-xs font-medium"
           onClick={() => {
             router.push("./settings");
           }}
         >
-          {/* <Image src={SettingsIcon} alt="Settings" /> */}
+          <Image src={ForYouIcon} alt="Pour toi" />
+          Pour toi
         </button>
-        <button
+        <button className="flex flex-col gap-y-px items-center text-xs font-medium"
           onClick={() => {
             router.push("./home");
           }}
         >
-          {/* <Image src={HomeIcon} alt="Home" /> */}
+          <Image src={HomeIcon} alt="Accueil" />
+          Accueil
         </button>
-        <button
+        <button className="flex flex-col gap-y-px items-center text-xs font-medium"
           onClick={() => {
             router.push("./account");
           }}
         >
-          {/* <Image src={AccountIcon} alt="Account" /> */}
+          <Image src={AccountIcon} alt="Compte" />
+          Compte
         </button>
       </div>
     </div>
