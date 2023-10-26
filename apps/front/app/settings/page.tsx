@@ -2,6 +2,8 @@
 import { useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image";
+import { supabase } from "@/lib/supabase";
+
 // import LeftArrowIcon from "@/public/images/icons/left-arrow.svg";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -21,6 +23,14 @@ export default function Settings() {
     formState: { errors },
   } = useForm<IFormInput>();
   const router = useRouter();
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      router.replace("/auth");
+    } catch (error) {
+      console.error("error : ", error);
+    }
+  };
 
   const onSubmit = async (data: IFormInput) => {
     const { error: signUpError } = await supabase.auth.updateUser({
@@ -60,6 +70,11 @@ export default function Settings() {
       </div>
 
       <section className="w-full max-w-md mx-auto mt-10">
+        
+        <button onClick={handleSignOut} className="bg-red">
+          Sign out
+        </button>
+        
         <h2 className="mb-6 text-2xl font-extrabold text-center">
           Informations personnelles
         </h2>

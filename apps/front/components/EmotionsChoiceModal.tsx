@@ -18,11 +18,11 @@ type Props = {
 export default function VoteCard({ isOpen, setIsOpen, idArticle }: Props) {
   const emotionId = useRef<number>();
   const accessToken = useAtomValue(accessTokenAtom);
-  const userid = useAtomValue(userIdAtom);
-  console.log({ userid });
+  const userId = useAtomValue(userIdAtom);
+
   const voteEmotion = async (emotion: number) => {
     const data = {
-      profile_id: userid,
+      profile_id: userId,
       article_id: idArticle,
       emotion_id: emotion,
     };
