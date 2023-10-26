@@ -22,7 +22,7 @@ export default function Article() {
 
     const getOneArticle = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/articles/${id}`, {
+        const response = await fetch(`https://akoro-backend.up.railway.app/articles/${id}`, {
           method: "GET",
         });
 

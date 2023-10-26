@@ -28,7 +28,7 @@ export default function VoteCard({ isOpen, setIsOpen, idArticle }: Props) {
     };
     try {
       const response = await fetch(
-        "http://localhost:3001/profile/vote/upsert",
+        "https://akoro-backend.up.railway.app/profile/vote/upsert",
         {
           method: "POST",
           headers: {
