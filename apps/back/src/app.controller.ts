@@ -469,7 +469,7 @@ export class AppController {
     }
   }
 
-  // Create one user profile
+  // Upsert one user profile
   @Post('/profile/upsert')
   @UseGuards(SupabaseAuthGuard)
   async upsertProfile(@Req() req: Request) {
@@ -477,7 +477,7 @@ export class AppController {
     try {
       const { data, error } = await this.supabase
         .from('profiles')
-        .insert({
+        .upsert({
           id: body.id,
           name: body.name,
           format: body.format,
@@ -494,31 +494,10 @@ export class AppController {
     }
   }
 
-  @Post('/profile/insert/format')
-  @UseGuards(SupabaseAuthGuard)
-  async upsertProfileFormat(@Req() req: Request) {
-    const body = req.body;
-    try {
-      const { data, error } = await this.supabase
-        .from('profiles')
-        .update('format', body.format)
-        .eq('id', body.id)
-        .select();
-      Logger.log({ data });
-      Logger.log({ error });
-      return { status: 'ok' };
-    } catch (error) {
-      Logger.log(error);
-      throw new HttpException('Error', 500);
-    }
-  }
-
   // Read one user profile
-  @Get('/profile/read')
+  @Get('/profile/read/:profile_id')
   @HttpCode(200)
-  async seeOneProfile(@Req() req: Request) {
-    const body = req.body;
-    const profile_id = body.profile_id;
+  async seeOneProfile(@Param('profile_id') profile_id: string) {
     try {
       const { data: profile, error } = await this.supabase
         .from('profiles')

@@ -65,37 +65,13 @@ export default function CreateAccount() {
       </div>
       <section className="w-full mt-10">
         <h2 className="mb-6 text-2xl font-extrabold text-center">
-          Informations personnelles
+          Informations de connexion
         </h2>
         <form
           className="flex flex-col w-full max-w-md mx-auto gap-4"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
         >
-          <div className="relative">
-            <input
-              type="text"
-              id="name"
-              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${
-                errors.name ? "bg-red-dark2" : "bg-grey"
-              }`}
-              placeholder=" "
-              {...register("name", {
-                required: "Le nom est obligatoire",
-              })}
-            />
-            <label
-              htmlFor="name"
-              className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
-            >
-              Nom
-            </label>
-            {errors.name && (
-              <span className="text-red text-sm font-raleway">
-                {errors.name.message}
-              </span>
-            )}
-          </div>
           <div className="relative">
             <input
               type="email"
