@@ -228,6 +228,10 @@ export default function HomeConnected() {
         >
           {articleList.map((article, index) => (
             <VideoCard
+              emotion={articleEmotionData[article.id]?.correspondingEmotion}
+              percentEmotion={
+                articleEmotionData[article.id]?.maxPercentage + "%"
+              }
               key={index}
               longVideo={article.long_video}
               shortVideo={article.short_video}

@@ -27,11 +27,34 @@ export default function CardText({
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const accessToken = useAtomValue(accessTokenAtom);
+  let coloredEmotion = "";
+  let coloredBGEmotion = "";
+
+  if (emotion === "Positif") {
+    coloredEmotion = "bg-green";
+    coloredBGEmotion = "bg-card-text-green";
+  } else if (emotion === "Triste") {
+    coloredEmotion = "bg-blue";
+    coloredBGEmotion = "bg-card-text-blue";
+  } else if (emotion === "Énervant") {
+    coloredEmotion = "bg-red";
+    coloredBGEmotion = "bg-card-text-red";
+  } else if (emotion === "Étonnant") {
+    coloredEmotion = "bg-yellow";
+    coloredBGEmotion = "bg-card-text-yellow";
+  } else if (emotion === "Angoissant") {
+    coloredEmotion = "bg-purple";
+    coloredBGEmotion = "bg-card-text-purple";
+  }
 
   return (
-    <div className="relative bg-no-repeat bg-cover font-raleway rounded-2xl bg-card-text-green">
+    <div
+      className={`relative bg-no-repeat bg-cover font-raleway rounded-2xl ${coloredBGEmotion}`}
+    >
       <div className="pt-8 pb-4">
-        <div className="flex items-center justify-end h-6 pl-6 pr-8 rounded-r-full w-fit bg-green">
+        <div
+          className={`flex items-center justify-end h-6 pl-6 pr-8 rounded-r-full w-fit ${coloredEmotion}`}
+        >
           <div className="text-black">
             Voté {emotion} à {percentEmotion} !
           </div>
@@ -65,7 +88,7 @@ export default function CardText({
           onClick={() => {
             router.push(`/article/${id}`);
           }}
-          className="px-6 py-2 text-black rounded-lg bg-green-light2"
+          className={`px-6 py-2 text-black rounded-lg ${coloredEmotion}`}
         >
           Voir +
         </button>
