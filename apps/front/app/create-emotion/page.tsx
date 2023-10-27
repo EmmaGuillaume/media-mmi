@@ -17,10 +17,6 @@ export default function HomeConnected() {
   const nameRef = useRef<any>(null);
 
   const accessToken = useAtomValue(accessTokenAtom);
-  console.log(
-    "🚀 ~ file: page.tsx:30 ~ HomeConnected ~ accessToken:",
-    accessToken
-  );
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -28,7 +24,7 @@ export default function HomeConnected() {
     const data: Emotion = {
       name: nameRef.current,
     };
-    
+
     try {
       const response = await fetch(
         "https://akoro-backend.up.railway.app/emotions/create",
@@ -41,11 +37,9 @@ export default function HomeConnected() {
           body: JSON.stringify(data),
         }
       );
-      console.log(JSON.stringify(data));
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
       } else {
         console.error(
           "Error submitting form:",
@@ -56,7 +50,6 @@ export default function HomeConnected() {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
-    
   };
 
   return (
@@ -74,7 +67,6 @@ export default function HomeConnected() {
           className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
           onChange={(e) => {
             nameRef.current = e.target.value;
-            console.log(nameRef.current);
           }}
         />
         <button

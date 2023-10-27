@@ -2,9 +2,10 @@
 import { useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import Image from "next/image";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 // import LeftArrowIcon from "@/public/images/icons/left-arrow.svg";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useAtomValue } from "jotai";
 import { accessTokenAtom, userIdAtom } from "@/store";
@@ -20,6 +21,7 @@ export default function Settings() {
   const userId = useAtomValue(userIdAtom);
   const nameRef = useRef<any>(null);
   const formatRef = useRef<any>("video");
+  const router = useRouter();
 
   const {
     register,
@@ -28,7 +30,6 @@ export default function Settings() {
   } = useForm<IFormInput>();
 
   const onSubmit = async () => {
-
     const data: IFormInput = {
       id: userId,
       name: nameRef.current,
@@ -46,11 +47,11 @@ export default function Settings() {
           body: JSON.stringify(data),
         }
       );
-      console.log(JSON.stringify(data));
+      toast.success("Informations enregistrées");
+      router.push("./");
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
       } else {
         console.error(
           "Error submitting form:",
@@ -76,20 +77,21 @@ export default function Settings() {
         <form
           className="flex flex-col w-full max-w-md mx-auto gap-4"
           onSubmit={handleSubmit(onSubmit)}
-          noValidate>
+          noValidate
+        >
           <div className="relative">
             <input
               type="text"
               id="name"
-              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 border-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${errors.name ? "bg-red-dark2" : "bg-grey"
-                }`}
+              className={`block rounded-2xl px-4 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-grey border-2 border-grey focus-rainbow dark:bg-gray-700 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer ${
+                errors.name ? "bg-red-dark2" : "bg-grey"
+              }`}
               placeholder=" "
               {...register("name", {
                 required: "Le nom est obligatoire",
               })}
               onChange={(e) => {
                 nameRef.current = e.target.value;
-                console.log(nameRef.current);
               }}
             />
             <label

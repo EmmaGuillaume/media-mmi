@@ -80,11 +80,9 @@ export default function HomeConnected() {
           body: JSON.stringify(data),
         }
       );
-      console.log(JSON.stringify(data));
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log(responseData);
       } else {
         console.error(
           "Error submitting form:",
@@ -156,7 +154,6 @@ export default function HomeConnected() {
           className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
           onChange={(e) => {
             titleRef.current = e.target.value;
-            console.log(titleRef.current);
           }}
         />
         <textarea
@@ -203,7 +200,6 @@ export default function HomeConnected() {
             className="w-full h-12 px-4 py-2 bg-grey rounded-xl focus:outline-blue"
             onChange={(e) => {
               emotionRef.current = e.target.value;
-              console.log("emotionRef : ", emotionRef.current);
             }}
           >
             {emotionsList.map((emotion) => (

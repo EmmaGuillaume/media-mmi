@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { toast } from "react-toastify";
 import { supabase } from "@/lib/supabase";
 import { useForm } from "react-hook-form";
 import React, { useRef } from "react";
@@ -42,6 +43,7 @@ export default function CreateAccount() {
 
     if (signUpError) {
       console.error(signUpError.message);
+      toast.error("Mot de passe incorrect");
       return;
     }
 
@@ -53,6 +55,7 @@ export default function CreateAccount() {
       });
 
     if (authTokenCodeVerifierError) {
+      toast.error("Votre compte existe déjà");
       console.error(authTokenCodeVerifierError.message);
       return;
     }
@@ -69,7 +72,10 @@ export default function CreateAccount() {
         </h2>
         <form
           className="flex flex-col w-full max-w-md mx-auto gap-4"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={() => {
+            handleSubmit(onSubmit);
+            toast.success("Un email de conformation vous a été envoyé");
+          }}
           noValidate
         >
           <div className="relative">
