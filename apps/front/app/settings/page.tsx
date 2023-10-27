@@ -69,7 +69,10 @@ export default function Settings() {
       </div>
 
       <section className="w-full max-w-md mx-auto mt-10">
-        <button onClick={handleSignOut} className="bg-red">
+        <button
+          onClick={handleSignOut}
+          className="bg-grey px-6 py-3 w-full rounded-full my-8"
+        >
           Sign out
         </button>
 

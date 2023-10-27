@@ -9,8 +9,8 @@ export default function Nav() {
   const router = useRouter();
   return (
     <div className="fixed w-full bottom-0">
-      <div className="flex items-start justify-between w-full h-20 px-16 py-4 text-black bg-white drop-shadow-md">
-        <button
+      <div className="flex items-start justify-between w-full h-20 px-32 py-4 text-black bg-white drop-shadow-md">
+        {/* <button
           className="flex flex-col gap-y-px items-center text-xs font-medium"
           onClick={() => {
             router.push("./settings");
@@ -18,11 +18,11 @@ export default function Nav() {
         >
           <Image src={ForYouIcon} alt="Pour toi" />
           Pour toi
-        </button>
+        </button> */}
         <button
           className="flex flex-col gap-y-px items-center text-xs font-medium"
           onClick={() => {
-            router.push("./home");
+            router.push("./");
           }}
         >
           <Image src={HomeIcon} alt="Accueil" />

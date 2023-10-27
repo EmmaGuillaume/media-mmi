@@ -48,7 +48,7 @@ export default function Settings() {
         }
       );
       toast.success("Informations enregistrées");
-      router.push("./");
+      router.push("../");
 
       if (response.ok) {
         const responseData = await response.json();

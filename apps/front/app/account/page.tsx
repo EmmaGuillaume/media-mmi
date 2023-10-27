@@ -36,11 +36,11 @@ export default function Account() {
         <h1 className="text-3xl font-extrabold">Mon compte</h1>
       </div>
       <section className="w-full max-w-md mx-auto mt-10">
-        <h2 className="mb-6 text-2xl font-extrabold">[Mon nom]</h2>
+        {/* <h2 className="mb-6 text-2xl font-extrabold">[Mon nom]</h2> */}
         <div className="flex flex-col">
-          <Link className="text-white text-sm font-light mb-4" href="/settings">
+          {/* <Link className="text-white text-sm font-light mb-4" href="/settings">
             {"Paramètres de l'application"}
-          </Link>
+          </Link> */}
           <Link className="text-white text-sm font-light mb-4" href="/cgu">
             {"Conditions générales d'utilisation"}
           </Link>
