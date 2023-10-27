@@ -9,6 +9,11 @@ import { Article } from "@/types/global";
 import { parseDateDDMMYYYY } from "@/lib/parse-date";
 import ShareIcon from "@/public/assets/icons/share-icon.svg";
 import ArrowIcon from "@/public/assets/icons/arrow.svg";
+import SadIcon from "@/public/assets/icons/sad-white.svg";
+import PositifIcon from "@/public/assets/icons/positif-white.svg";
+import EnervantIcon from "@/public/assets/icons/angry-white.svg";
+import EtonnantIcon from "@/public/assets/icons/etonnant-white.svg";
+import AngoissantIcon from "@/public/assets/icons/angoissant-white.svg";
 
 export default function Article() {
   const router = useRouter();
@@ -27,17 +32,25 @@ export default function Article() {
   const Emotion = ["Étonnant", "Angoissant", "Énervant", "Positif", "Triste"];
   const maxEmotion = getMaxEmotion();
   let coloredEmotion = "";
+  let iconEmotion: string;
 
   if (maxEmotion === "Positif") {
-    coloredEmotion = "bg-green-dark1";
+    coloredEmotion = "bg-green";
+    iconEmotion = PositifIcon;
   } else if (maxEmotion === "Triste") {
     coloredEmotion = "bg-blue-dark1";
+    iconEmotion = SadIcon;
   } else if (maxEmotion === "Énervant") {
     coloredEmotion = "bg-red-dark1";
+    iconEmotion = EnervantIcon;
   } else if (maxEmotion === "Étonnant") {
+    iconEmotion = EtonnantIcon;
     coloredEmotion = "bg-yellow-dark1";
   } else if (maxEmotion === "Angoissant") {
     coloredEmotion = "bg-purple-dark1";
+    iconEmotion = AngoissantIcon;
+  } else {
+    iconEmotion = PositifIcon; // Provide a default value
   }
 
   console.log("coloredEmotion", coloredEmotion);
@@ -171,15 +184,15 @@ export default function Article() {
       <section
         className={`${coloredEmotion} px-6 h-20 flex items-center gap-8`}
       >
-        <div className="flex gap-2">
-          <Image src={ShareIcon} alt=""></Image>
+        <div className="flex gap-2 items-center">
+          <Image src={iconEmotion} alt="" className="w-8 h-8"></Image>
           <div>
             <p className=""> Vote des lecteurs :</p>
             {!percentArray.length ? (
               <p className="">Pas encore de vote</p>
             ) : (
               <p className="">
-                {percentArray.length > 0 && getMaxEmotion()}
+                {percentArray.length > 0 && getMaxEmotion()}{" "}
                 {percentArray.length > 0 && getMaxEmotionPercent()}
               </p>
             )}
