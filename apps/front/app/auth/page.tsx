@@ -37,7 +37,6 @@ export default function Login() {
     });
 
     if (!error && session) {
-      console.log("🚀 ~ file: page.tsx:39 ~ onSubmit ~ session:", session);
       router.replace("/");
       setAccessToken(session.access_token);
       setUserId(session.user.id);

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import PinIcon from "@/public/assets/icons/pin-icon.svg";
 import ShareIcon from "@/public/assets/icons/share-icon.svg";
 import VoteCard from "@/components/EmotionsChoiceModal";
-import { title } from "process";
 import { useState, useRef } from "react";
 import EmotionIcon from "@/public/assets/icons/emotion-icon.svg";
 import { accessTokenAtom } from "@/store";
@@ -29,7 +28,6 @@ export default function CardText({
   const accessToken = useAtomValue(accessTokenAtom);
   let coloredEmotion = "";
   let coloredBGEmotion = "";
-
   if (emotion === "Positif") {
     coloredEmotion = "bg-green";
     coloredBGEmotion = "bg-card-text-green";

@@ -53,7 +53,6 @@ export default function Article() {
     iconEmotion = PositifIcon; // Provide a default value
   }
 
-  console.log("coloredEmotion", coloredEmotion);
   useEffect(() => {
     const url = window.location.href;
     const urlParts = url.split("/");
@@ -85,18 +84,12 @@ export default function Article() {
         );
 
         const votesData = await response.json();
-        console.log("votesData", votesData);
         const nbTotalVotes = votesData.length;
-        console.log("nbTotalVotes", nbTotalVotes);
 
         if (!nbTotalVotes) {
-          console.log("Article has no votes");
           return;
         } else {
           votesData.forEach((vote: any) => {
-            console.log("AAA", vote);
-
-            console.log("vote : ", vote.emotion_id);
             if (vote.emotion_id === 3) {
               emotionCounts.positifId++;
             }
@@ -130,9 +123,8 @@ export default function Article() {
           return Math.round((emotionCount / totalVotes) * 100);
         }
       );
-      console.log(percentOfVotes);
+
       setPercentArray(percentOfVotes);
-      console.log({ percentArray });
 
       return percentOfVotes;
     };
@@ -144,7 +136,6 @@ export default function Article() {
   function getMaxEmotion() {
     const maxPercent = Math.max(...percentArray);
     const maxEmotionIndex = percentArray.indexOf(maxPercent);
-    console.log("maxEmotionIndex", maxEmotionIndex);
 
     return Emotion[maxEmotionIndex];
   }

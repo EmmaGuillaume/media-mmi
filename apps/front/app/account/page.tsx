@@ -10,7 +10,6 @@ export default function Account() {
   const accessToken = useAtomValue(accessTokenAtom);
   const userId = useAtomValue(userIdAtom);
 
-  console.log("userId: ", userId);
   const seeOneProfile = async () => {
     try {
       const response = await fetch(
@@ -25,7 +24,6 @@ export default function Account() {
       );
 
       const profileData = await response.json();
-      console.log(profileData);
     } catch (error) {
       console.error("Error fetching profile:", error);
     }
