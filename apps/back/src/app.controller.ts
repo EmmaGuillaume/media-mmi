@@ -184,9 +184,7 @@ export class AppController {
         .select();
       Logger.log({ data });
       Logger.log({ error });
-      return {
-        ok: true,
-      };
+      return { status: 'ok' };
     } catch (error) {
       Logger.log(error);
       console.log(error);
@@ -496,23 +494,19 @@ export class AppController {
     }
   }
 
-  @Post('/profile/upsert/format')
+  @Post('/profile/insert/format')
   @UseGuards(SupabaseAuthGuard)
   async upsertProfileFormat(@Req() req: Request) {
     const body = req.body;
     try {
       const { data, error } = await this.supabase
         .from('profiles')
-        .upsert({
-          format: body.format,
-        })
+        .update('format', body.format)
         .eq('id', body.id)
         .select();
       Logger.log({ data });
       Logger.log({ error });
-      return {
-        ok: true,
-      };
+      return { status: 'ok' };
     } catch (error) {
       Logger.log(error);
       throw new HttpException('Error', 500);
