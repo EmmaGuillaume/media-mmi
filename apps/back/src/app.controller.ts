@@ -328,18 +328,13 @@ export class AppController {
   // Read votes on one article
   @Get('/articles/vote/:article_id')
   @HttpCode(200)
-  async seeAllVotesOnArticle(
-    @Param('article_id') article_id: string,
-    @Req() req: Request,
-  ) {
+  async seeAllVotesOnArticle(@Param('article_id') article_id: string) {
     try {
       const { data: votes, error } = await this.supabase
         .from('profile_vote_article')
         .select('*')
         .eq('article_id', article_id);
-      Logger.log({ votes });
-      Logger.log({ req });
-      Logger.log({ error });
+      if (error) throw error;
       return votes;
     } catch (error) {
       Logger.log(error);
@@ -528,7 +523,7 @@ export class AppController {
         .from('profiles')
         .update({
           name: body.name,
-        }) 
+        })
         .eq('id', profile_id)
         .select();
       Logger.log({ data });
@@ -541,7 +536,6 @@ export class AppController {
       throw new HttpException('Error', 500);
     }
   }
-
 
   // MVP 3 : DO NOT USE
   // // Create one category

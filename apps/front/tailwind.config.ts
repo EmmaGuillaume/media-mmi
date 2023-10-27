@@ -26,10 +26,10 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "card-text-green": "url('/assets/bg-card-green.svg')",
-        "card-text-yellow": "url('/assets/bg-card.svg')",
-        "card-text-purple": "url('/assets/bg-card.svg')",
-        "card-text-red": "url('/assets/bg-card.svg')",
-        "card-text-blue": "url('/assets/bg-card.svg')",
+        "card-text-yellow": "url('/assets/bg-card-yellow.svg')",
+        "card-text-purple": "url('/assets/bg-card-purple.svg')",
+        "card-text-red": "url('/assets/bg-card-red.svg')",
+        "card-text-blue": "url('/assets/bg-card-blue.svg')",
       },
     },
     colors: {
