@@ -65,7 +65,7 @@ export default function CreateAccount() {
       </div>
       <section className="w-full mt-10">
         <h2 className="mb-6 text-2xl font-extrabold text-center">
-          Informations personnelles
+          Informations de connexion
         </h2>
         <form
           className="flex flex-col w-full max-w-md mx-auto gap-4"
