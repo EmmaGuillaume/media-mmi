@@ -326,18 +326,13 @@ export class AppController {
   // Read votes on one article
   @Get('/articles/vote/:article_id')
   @HttpCode(200)
-  async seeAllVotesOnArticle(
-    @Param('article_id') article_id: string,
-    @Req() req: Request,
-  ) {
+  async seeAllVotesOnArticle(@Param('article_id') article_id: string) {
     try {
       const { data: votes, error } = await this.supabase
         .from('profile_vote_article')
         .select('*')
         .eq('article_id', article_id);
-      Logger.log({ votes });
-      Logger.log({ req });
-      Logger.log({ error });
+      if (error) throw error;
       return votes;
     } catch (error) {
       Logger.log(error);
